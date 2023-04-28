@@ -26,7 +26,7 @@ const Search = styled.input`
   height: 36px;
   border: none;
   border-radius: 6px;
-  background-color: #e7e6e6;
+  background-color: #e4e4e4;
 
   &::placeholder {
     color: #8f8f8f;

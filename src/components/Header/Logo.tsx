@@ -13,7 +13,8 @@ const Logo = () => {
 
 const Title = styled.h1`
   font-size: 32px;
-  color: #74d3c3;
+  color: #38c8b4;
+  margin-right: 32px;
 `;
 
 export default Logo;

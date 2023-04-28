@@ -1,33 +1,43 @@
 import styled from "styled-components";
+import { DataType } from "./CardList";
+import CardHead from "./CardHead";
+import CardBody from "./CardBody";
 
-const data = {
-  id: "q48573975",
-  writer: {
-    id: "123",
-    nickname: "라뮤",
-    image: "https://via.placeholder.com/100x100",
-  },
-  date: "2023-04-28",
-  destination: ["해외", "일본", "후쿠오카"],
-  question: "후쿠오카는 언제 가는게 제일 좋나요?",
-  bestComment: "c3429806",
-  comments: ["c3429803", "c3429806", "c3429906"], // 리뷰 id
-};
+interface CardProps {
+  infos: DataType;
+}
 
-const Card = () => {
-  // if login user id와 Card data writer id가 같다면 메뉴 존재
+const Card = (props: CardProps) => {
+  const { writer, date, destination, question, bestComment } = props.infos;
+
   return (
     <Container>
-      {/* <Head />
-      <Body /> */}
+      <CardHead writer={writer} date={date} />
+      <CardBody
+        destination={destination}
+        question={question}
+        answer={bestComment ? bestComment : null}
+      />
+      <MoreComments>댓글 더보기...</MoreComments>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 720px;
-  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  width: 100%;
   border-radius: 16px;
+  border: 1px solid #b5b5b5;
+`;
+
+const MoreComments = styled.div`
+  margin-left: 8px;
+  font-size: 14px;
+  color: #8f8f8f;
 `;
 
 export default Card;
