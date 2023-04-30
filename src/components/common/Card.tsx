@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { DataType } from "./CardList";
 import CardHead from "./CardHead";
 import CardBody from "./CardBody";
+import { DataType } from "../../store/datas";
 
 interface CardProps {
   infos: DataType;
@@ -31,7 +31,7 @@ const Container = styled.div`
   padding: 16px;
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #b5b5b5;
+  border: 1px solid #b6b6b6;
 `;
 
 const MoreComments = styled.div`

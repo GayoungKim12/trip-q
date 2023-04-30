@@ -38,6 +38,7 @@ const Login = styled.button`
   width: 60px;
   padding: 4px;
   color: #8f8f8f;
+  font-weight: 500;
   font-family: "Noto Sans KR";
 `;
 

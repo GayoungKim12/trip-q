@@ -10,7 +10,7 @@ const Destination = (props: DestinationProps) => {
   return (
     <Container>
       {contents.map((content, index) => {
-        return <Span key={index}>{content}</Span>;
+        return <Tag key={index}>{content}</Tag>;
       })}
     </Container>
   );
@@ -23,7 +23,7 @@ const Container = styled.div`
   margin-top: 8px;
 `;
 
-const Span = styled.span`
+const Tag = styled.span`
   display: flex;
   align-items: center;
   padding: 0 16px;

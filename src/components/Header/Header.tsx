@@ -14,9 +14,14 @@ const Header = () => {
 };
 
 const HeaderArea = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 64px;
+  background-color: #ffffff;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
+  z-index: 10;
 `;
 
 const Container = styled.div`

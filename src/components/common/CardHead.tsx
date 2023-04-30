@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { WriterType } from "./CardList";
+import { Link } from "react-router-dom";
+import { WriterType } from "../../store/datas";
 
 interface CardHeadProps {
   writer: WriterType;
@@ -11,11 +12,15 @@ const CardHead = (props: CardHeadProps) => {
 
   return (
     <Container>
-      <ImageContainer>
-        <Image src={writer.image} alt={`${writer.id}의 프로필 사진`} />
-      </ImageContainer>
+      <Link to={`/profile/${writer.id}`}>
+        <ImageContainer>
+          <Image src={writer.image} alt={`${writer.id}의 프로필 사진`} />
+        </ImageContainer>
+      </Link>
       <Descriptions>
-        <NickName>{writer.nickname}</NickName>
+        <Link to={`/profile/${writer.id}`}>
+          <NickName>{writer.nickname}</NickName>
+        </Link>
         <Date>{date}</Date>
       </Descriptions>
     </Container>
@@ -35,7 +40,7 @@ const ImageContainer = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 2px solid #b5b5b5;
+  border: 2px solid #b6b6b6;
   overflow: hidden;
 `;
 
@@ -51,6 +56,7 @@ const Descriptions = styled.div`
 
 const NickName = styled.span`
   font-weight: 500;
+  color: black;
 `;
 
 const Date = styled.span`
