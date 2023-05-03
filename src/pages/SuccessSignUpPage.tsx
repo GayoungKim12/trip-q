@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import userInfoState from "../store/userInfoState";
+import userInfosState from "../store/userInfosState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 
 const SuccessSignUpPage = () => {
-  const userInfos = useRecoilValue(userInfoState);
+  const userInfos = useRecoilValue(userInfosState);
   const navigate = useNavigate();
 
   return (

@@ -8,22 +8,19 @@ interface TravelsProps {
 }
 
 const Travels = (props: TravelsProps) => {
+  console.log(props.destinations);
   const { domestic, abroad } = props.destinations;
 
   return (
     <Container>
-      {domestic.length && (
-        <Travel>
-          <Standard>국내:</Standard>
-          <Visited>{domestic.join(", ")}</Visited>
-        </Travel>
-      )}
-      {abroad.length && (
-        <Travel>
-          <Standard>해외:</Standard>
-          <Visited>{abroad.join(", ")}</Visited>
-        </Travel>
-      )}
+      <Travel>
+        <Standard>국내:</Standard>
+        {domestic.length !== 0 ? <Visited>{domestic.join(", ")}</Visited> : <Standard>없음</Standard>}
+      </Travel>
+      <Travel>
+        <Standard>해외:</Standard>
+        {abroad.length !== 0 ? <Visited>{abroad.join(", ")}</Visited> : <Standard>없음</Standard>}
+      </Travel>
     </Container>
   );
 };

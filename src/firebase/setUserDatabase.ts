@@ -1,6 +1,6 @@
 import { db } from "./firebase";
 
-interface UserDataType {
+export interface UserDataType {
   email: string;
   nickname: string;
   destinations: {

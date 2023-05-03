@@ -3,16 +3,14 @@ import Tag from "../common/Tag";
 import PlusTag from "../common/PlusTag";
 import SelectDestinationModal from "../SelectDestinationModal/SelectDestinationModal";
 import { useState } from "react";
-import { DestinationsType } from "../../store/userInfosState";
-
-interface TravelPlacesProps {
-  destinations: DestinationsType;
-}
+import { useRecoilValue } from "recoil";
+import editUserInfosState from "../../store/editUserInfosState";
 
 type ModalStandardType = "" | "국내" | "해외";
 
-const TravelPlaces = (props: TravelPlacesProps) => {
-  const { domestic, abroad } = props.destinations;
+const EditTravelPlaces = () => {
+  const editUserInfos = useRecoilValue(editUserInfosState);
+  const { domestic, abroad } = editUserInfos.destinations;
   const [modal, setModal] = useState<ModalStandardType>("");
 
   return (
@@ -20,7 +18,7 @@ const TravelPlaces = (props: TravelPlacesProps) => {
       <Place>
         <Span>{"방문한 국내 여행지(최대 5개)"}</Span>
         <Container>
-          {domestic.map((country) => {
+          {domestic.map((country: string) => {
             return <Tag key={country} content={country} />;
           })}
           {domestic.length !== 5 && <PlusTag onClick={() => setModal("국내")} />}
@@ -29,13 +27,13 @@ const TravelPlaces = (props: TravelPlacesProps) => {
       <Place>
         <Span>{"방문한 해외 여행지(최대 5개)"}</Span>
         <Container>
-          {abroad.map((country) => {
+          {abroad.map((country: string) => {
             return <Tag key={country} content={country} />;
           })}
           {abroad.length !== 5 && <PlusTag onClick={() => setModal("해외")} />}
         </Container>
       </Place>
-      {modal !== "" && <SelectDestinationModal type={"new"} closeModal={() => setModal("")} standard={modal} />}
+      {modal !== "" && <SelectDestinationModal type={"edit"} closeModal={() => setModal("")} standard={modal} />}
     </>
   );
 };
@@ -62,4 +60,4 @@ const Container = styled.div`
   gap: 8px;
 `;
 
-export default TravelPlaces;
+export default EditTravelPlaces;

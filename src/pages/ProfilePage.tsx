@@ -5,12 +5,18 @@ import Profile from "../components/Profile/Profile";
 
 const ProfilePage = () => {
   const { userId } = useParams();
+  const myId = localStorage.getItem("sign-in-user");
 
-  if (!userId) return <>Not UserId</>;
+  if (!userId) return <>없는 페이지입니다.</>;
 
   return (
     <Container>
-      <EditProfileButton />
+      {myId === userId && (
+        <>
+          {/* <LogOutButton /> */}
+          <EditProfileButton userId={userId} />
+        </>
+      )}
       <Profile userId={userId} />
     </Container>
   );

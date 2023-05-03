@@ -2,10 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import Writings from "./Writings";
 import Comments from "./Comments";
-import { UserType } from "../../store/users";
+import { DocumentData } from "firebase/firestore";
 
 interface TabsProps {
-  userInfos: UserType;
+  userInfos: DocumentData;
 }
 
 const Tabs = (props: TabsProps) => {
@@ -32,11 +32,7 @@ const Tabs = (props: TabsProps) => {
           보관함
         </Tab>
       </TabContainer>
-      {active === "writing" ? (
-        <Writings questions={questions} />
-      ) : (
-        <Comments comments={saveComments} />
-      )}
+      {active === "writing" ? <Writings questions={questions} /> : <Comments comments={saveComments} />}
     </Container>
   );
 };

@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { destinations } from "../../constants/destinations";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import userInfoState from "../../store/userInfoState";
+import userInfosState from "../../store/userInfosState";
+import editUserInfosState from "../../store/editUserInfosState";
 
 interface SelectDestinationModalProps {
+  type: "new" | "edit";
   standard?: "국내" | "해외";
   closeModal: () => void;
 }
@@ -17,7 +19,8 @@ interface DestinationType {
 
 const SelectDestinationModal = (props: SelectDestinationModalProps) => {
   const bigStandard = Object.keys(destinations);
-  const setUserInfos = useSetRecoilState(userInfoState);
+  const setUserInfos = useSetRecoilState(userInfosState);
+  const setEditUserInfos = useSetRecoilState(editUserInfosState);
   const [destination, setDestination] = useState<DestinationType>({
     big: props.standard ? props.standard : "선택",
     middle: "선택",
@@ -33,16 +36,29 @@ const SelectDestinationModal = (props: SelectDestinationModalProps) => {
   }
 
   const AddDestinations = (type: "domestic" | "abroad", country: string) => {
-    setUserInfos((prevUserInfos) => {
-      const newUserInfos = {
-        ...prevUserInfos,
-        destinations: {
-          ...prevUserInfos.destinations,
-          [type]: [...prevUserInfos.destinations[type], country],
-        },
-      };
-      return newUserInfos;
-    });
+    if (props.type === "new") {
+      setUserInfos((prevUserInfos) => {
+        const newUserInfos = {
+          ...prevUserInfos,
+          destinations: {
+            ...prevUserInfos.destinations,
+            [type]: [...prevUserInfos.destinations[type], country],
+          },
+        };
+        return newUserInfos;
+      });
+    } else {
+      setEditUserInfos((prevUserInfos) => {
+        const newUserInfos = {
+          ...prevUserInfos,
+          destinations: {
+            ...prevUserInfos.destinations,
+            [type]: [...prevUserInfos.destinations[type], country],
+          },
+        };
+        return newUserInfos;
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>, key: "big" | "middle" | "small") => {
@@ -63,6 +79,8 @@ const SelectDestinationModal = (props: SelectDestinationModalProps) => {
 
     const destinationString =
       destination.small === "전체" ? `${destination.middle}` : `${destination.middle} ${destination.small}`;
+
+    if (destinationString.includes("선택")) return alert("여행지를 선택해주세요.");
 
     if (destination.big === "국내") {
       AddDestinations("domestic", destinationString);

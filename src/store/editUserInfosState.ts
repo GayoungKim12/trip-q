@@ -5,10 +5,8 @@ export interface DestinationsType {
   abroad: string[];
 }
 
-export interface UserInfosType {
+export interface EditUserInfosType {
   email: string;
-  password: string;
-  passwordCheck: string;
   nickname: string;
   destinations: DestinationsType;
   selected: number;
@@ -18,12 +16,10 @@ export interface UserInfosType {
   };
 }
 
-const userInfoState = atom<UserInfosType>({
-  key: "userInfoState",
+const editUserInfosState = atom<EditUserInfosType>({
+  key: "editUserInfosState",
   default: {
     email: "",
-    password: "",
-    passwordCheck: "",
     nickname: "",
     destinations: {
       domestic: [],
@@ -35,4 +31,4 @@ const userInfoState = atom<UserInfosType>({
   },
 });
 
-export default userInfoState;
+export default editUserInfosState;

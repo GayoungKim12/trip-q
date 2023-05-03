@@ -5,11 +5,11 @@ import SignUpInputs from "./SignUpInputs";
 import setUserDatabase from "../../firebase/setUserDatabase";
 import TravelPlaces from "./TravelPlaces";
 import { useRecoilState } from "recoil";
-import userInfoState from "../../store/userInfoState";
+import userInfosState from "../../store/userInfosState";
 import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
-  const [userInfos, setUserInfos] = useRecoilState(userInfoState);
+  const [userInfos, setUserInfos] = useRecoilState(userInfosState);
   const navigate = useNavigate();
   const [checkEmail, setCheckEmail] = useState(false);
   const [isDuplication, setIsDuplication] = useState<boolean | null>(null);

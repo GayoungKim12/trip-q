@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import userInfoState from "../../store/userInfoState";
+import userInfosState from "../../store/userInfosState";
 import { useState } from "react";
 import { db } from "../../firebase/firebase";
 
@@ -11,7 +11,7 @@ interface SignUpInputsProps {
 }
 
 const SignUpInputs = (props: SignUpInputsProps) => {
-  const [userInfos, setUserInfos] = useRecoilState(userInfoState);
+  const [userInfos, setUserInfos] = useRecoilState(userInfosState);
   const [isSame, setIsSame] = useState(true);
 
   const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname", content: string) => {

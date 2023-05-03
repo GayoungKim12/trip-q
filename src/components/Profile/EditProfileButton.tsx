@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const EditProfileButton = () => {
-  return <Button>회원정보 수정</Button>;
+interface EditProfileButton {
+  userId: string;
+}
+
+const EditProfileButton = (props: EditProfileButton) => {
+  const navigate = useNavigate();
+
+  return <Button onClick={() => navigate(`/edit-profile/${props.userId}`)}>회원정보 수정</Button>;
 };
 
 const Button = styled.button`

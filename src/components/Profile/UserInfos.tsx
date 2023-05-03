@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { UserType } from "../../store/users";
 import ImageAndNickname from "./ImageAndNickname";
 import Travels from "./Travels";
+import { DocumentData } from "firebase/firestore";
 
 interface UserInfosProps {
-  userInfos: UserType;
+  userInfos: DocumentData;
 }
 
 const UserInfos = (props: UserInfosProps) => {
@@ -16,8 +16,8 @@ const UserInfos = (props: UserInfosProps) => {
     <Container>
       <Middle>
         <ImageAndNickname
-          userId={infos.id}
-          image={infos.image}
+          userId={infos.email}
+          image={"https://via.placeholder.com/100x100"}
           nickname={infos.nickname}
         />
         <Selected>
@@ -25,7 +25,7 @@ const UserInfos = (props: UserInfosProps) => {
           <Span>답변 채택 수</Span>
         </Selected>
       </Middle>
-      <Travels destinations={infos.travels} />
+      <Travels destinations={infos.destinations} />
     </Container>
   );
 };
