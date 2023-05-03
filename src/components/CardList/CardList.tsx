@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Card from "../common/Card";
+import Card from "../Card/Card";
 import datas from "../../store/datas";
 
 const CardList = () => {

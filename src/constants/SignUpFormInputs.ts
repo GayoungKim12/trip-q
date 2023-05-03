@@ -1,4 +1,4 @@
-export interface JoinMembershipInputsType {
+export interface SignUpFormInputsType {
   id: string;
   label: string;
   type: string;
@@ -6,7 +6,7 @@ export interface JoinMembershipInputsType {
   rule?: string;
 }
 
-export const JoinMembershipInputs: JoinMembershipInputsType[] = [
+export const SignUpFormInputs: SignUpFormInputsType[] = [
   {
     id: "id",
     label: "아이디",

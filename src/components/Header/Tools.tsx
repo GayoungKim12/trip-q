@@ -1,12 +1,24 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Tools = () => {
   const navigate = useNavigate();
+  const signInUser = localStorage.getItem("sign-in-user");
+
+  console.log(signInUser);
+
   return (
     <Container>
       <Search type="text" placeholder="여행지를 입력해주세요." />
-      <Login onClick={() => navigate("/login")}>로그인</Login>
+      {signInUser ? (
+        <Link to={`/profile/${signInUser}`}>
+          <ImageContainer>
+            <Image src={"https://via.placeholder.com/100x100"} alt={`${signInUser}의 프로필 사진`} />
+          </ImageContainer>
+        </Link>
+      ) : (
+        <Login onClick={() => navigate("/login")}>로그인</Login>
+      )}
     </Container>
   );
 };
@@ -18,6 +30,22 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   max-width: 300px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #b6b6b6;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  width: 90%;
+  border-radius: 50%;
 `;
 
 const Search = styled.input`

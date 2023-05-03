@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Route, Routes } from "react-router-dom";
 import LogInPage from "../../pages/LogInPage";
-import JoinMembershipPage from "../../pages/JoinMembershipPage";
 import CardList from "../CardList/CardList";
 import ProfilePage from "../../pages/ProfilePage";
-import users from "../../store/users";
+import SignUpPage from "../../pages/SignUpPage";
+import SuccessSignUpPage from "../../pages/SuccessSignUpPage";
 
 const Main = () => {
   return (
@@ -12,7 +12,8 @@ const Main = () => {
       <Routes>
         <Route path={"/"} element={<CardList />} />
         <Route path={"/login"} element={<LogInPage />} />
-        <Route path={"/join-membership"} element={<JoinMembershipPage />} />
+        <Route path={"/signup"} element={<SignUpPage />} />
+        <Route path={"/signup/success"} element={<SuccessSignUpPage />} />
         <Route path={"/profile/:userId"} element={<ProfilePage />} />
       </Routes>
     </Container>

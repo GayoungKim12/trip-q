@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import UserInformations from "../components/JoinMembership/UserInformations";
+import SignUp from "../components/SignUpForm/SignUp";
 
-const JoinMembershipPage = () => {
+const SignUpPage = () => {
   return (
     <Container>
       <Title>회원가입</Title>
-      <UserInformations />
+      <SignUp />
     </Container>
   );
 };
@@ -22,4 +22,4 @@ const Title = styled.h2`
   font-weight: 700;
 `;
 
-export default JoinMembershipPage;
+export default SignUpPage;

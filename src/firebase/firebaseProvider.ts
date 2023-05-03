@@ -1,18 +1,42 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import auth from "./firebase";
+import { auth, db } from "./firebase";
+import setUserDatabase from "./setUserDatabase";
 
-// GoogleAuthProvider 객체 생성
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// Google 로그인 함수
-export const signInWithGoogle = () => {
+export const signInWithGoogle = (callback: (str: string) => void) => {
   auth
     .signInWithPopup(provider)
     .then((result) => {
-      // 로그인 성공 시 처리할 코드
-      console.log(result);
-      alert("성공");
+      if (result?.user?.email) {
+        localStorage.setItem("sign-in-user", `${result?.user?.uid}`);
+
+        db.collection("users")
+          .where("email", "==", result.user.email)
+          .get()
+          .then((querySnapshot) => {
+            if (querySnapshot.size === 0 && result.user?.uid && result.user.email) {
+              const userData = {
+                email: result.user.email,
+                nickname: result.user.email.split("@")[0],
+                destinations: {
+                  domestic: [],
+                  abroad: [],
+                },
+                selected: 0,
+                questions: [],
+                saveComments: {},
+              };
+              setUserDatabase(result.user.uid, userData);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+        callback("/");
+      }
     })
     .catch((error) => {
       // 로그인 실패 시 처리할 코드

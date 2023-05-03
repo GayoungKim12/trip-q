@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import InformationsForm from "./InformationForm";
+import SignUpForm from "./SignUpForm";
 
-const UserInformations = () => {
+const SignUp = () => {
   return (
     <Container>
-      <InformationsForm />
+      <SignUpForm />
     </Container>
   );
 };
@@ -21,4 +21,4 @@ const Container = styled.section`
   }
 `;
 
-export default UserInformations;
+export default SignUp;

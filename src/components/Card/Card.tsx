@@ -13,11 +13,7 @@ const Card = (props: CardProps) => {
   return (
     <Container>
       <CardHead writer={writer} date={date} />
-      <CardBody
-        destination={destination}
-        question={question}
-        answer={bestComment ? bestComment : null}
-      />
+      <CardBody destination={destination} question={question} answer={bestComment ? bestComment : null} />
       <MoreComments>댓글 더보기...</MoreComments>
     </Container>
   );

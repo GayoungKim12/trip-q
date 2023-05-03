@@ -1,12 +1,55 @@
 import styled from "styled-components";
 import SetAccount from "./SetAccount";
+import { auth } from "../../firebase/firebase";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TripQLogIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const signInWithEmailAndPassword = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        console.log(result?.user?.uid, "로그인 성공");
+
+        localStorage.setItem("sign-in-user", `${result?.user?.uid}`);
+
+        navigate("/");
+      })
+      .catch(() => {
+        alert("이메일 또는 비밀번호가 틀렸습니다. 입력 정보를 다시 한 번 확인해주세요.");
+      });
+  };
+
+  const handleLogIn = (e: React.MouseEvent) => {
+    e.preventDefault();
+    signInWithEmailAndPassword();
+  };
+
+  const keyDownEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      signInWithEmailAndPassword();
+    }
+  };
+
   return (
     <Form>
       <Place>
-        <Label htmlFor={"id"}>아이디</Label>
-        <Input type="text" id={"id"} placeholder={"아이디를 입력해주세요."} />
+        <Label htmlFor={"email"}>이메일</Label>
+        <Input
+          type="email"
+          id={"email"}
+          placeholder={"이메일을 입력해주세요."}
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          onKeyDown={keyDownEnter}
+          required
+        />
       </Place>
       <Place>
         <Label htmlFor={"password"}>비밀번호</Label>
@@ -14,9 +57,14 @@ const TripQLogIn = () => {
           type="password"
           id={"password"}
           placeholder={"비밀번호를 입력해주세요."}
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          required
         />
       </Place>
-      <Button>로그인</Button>
+      <Button onClick={handleLogIn}>로그인</Button>
       <SetAccount />
     </Form>
   );
@@ -62,6 +110,10 @@ const Button = styled.button`
   font-size: 18px;
   font-weight: 700;
   color: #ffffff;
+
+  &:hover {
+    background-color: #45b8ab;
+  }
 `;
 
 export default TripQLogIn;

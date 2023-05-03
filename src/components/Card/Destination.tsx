@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Tag from "../common/Tag";
 
 interface DestinationProps {
   contents: string[];
@@ -10,7 +11,7 @@ const Destination = (props: DestinationProps) => {
   return (
     <Container>
       {contents.map((content, index) => {
-        return <Tag key={index}>{content}</Tag>;
+        return <Tag key={index} content={content} />;
       })}
     </Container>
   );
@@ -21,18 +22,6 @@ const Container = styled.div`
   align-items: center;
   gap: 8px;
   margin-top: 8px;
-`;
-
-const Tag = styled.span`
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background-color: #38c8b4;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
-  color: #fff;
 `;
 
 export default Destination;

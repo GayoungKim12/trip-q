@@ -1,6 +1,6 @@
-import Answer from "./Answer";
+import Answer from "../common/Answer";
 import Destination from "./Destination";
-import Question from "./Question";
+import Question from "../common/Question";
 
 interface CardBodyProps {
   destination: string[];

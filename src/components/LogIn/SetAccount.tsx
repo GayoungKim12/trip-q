@@ -5,7 +5,7 @@ const SetAccount = () => {
   return (
     <Container>
       <p>아직 계정이 없으신가요?</p>
-      <Link to={"/join-membership"}>회원가입</Link>
+      <Link to={"/signup"}>회원가입</Link>
     </Container>
   );
 };
