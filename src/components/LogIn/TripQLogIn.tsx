@@ -12,11 +12,7 @@ const TripQLogIn = () => {
   const signInWithEmailAndPassword = () => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        console.log(result?.user?.uid, "로그인 성공");
-
-        localStorage.setItem("sign-in-user", `${result?.user?.uid}`);
-
+      .then(() => {
         navigate("/");
       })
       .catch(() => {

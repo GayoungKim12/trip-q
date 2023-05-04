@@ -10,8 +10,6 @@ export const signInWithGoogle = (callback: (str: string) => void) => {
     .signInWithPopup(provider)
     .then((result) => {
       if (result?.user?.email) {
-        localStorage.setItem("sign-in-user", `${result?.user?.uid}`);
-
         db.collection("users")
           .where("email", "==", result.user.email)
           .get()

@@ -1,11 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { authService } from "../../firebase/firebase";
+import { useEffect, useState } from "react";
 
 const Tools = () => {
   const navigate = useNavigate();
-  const signInUser = localStorage.getItem("sign-in-user");
+  const [signInUser, setSignInUser] = useState<string | null>(null);
 
-  console.log(signInUser);
+  useEffect(() => {
+    const unsubscribe = authService.onAuthStateChanged((user) => {
+      if (user) {
+        setSignInUser(user.uid);
+      } else {
+        setSignInUser(null);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <Container>
