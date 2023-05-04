@@ -8,11 +8,14 @@ interface SignUpInputsProps {
   checkEmail: () => void;
   isDuplication: boolean | null;
   setIsDuplication: (value: boolean) => void;
+  checkPassword: (bool: boolean) => void;
 }
 
 const SignUpInputs = (props: SignUpInputsProps) => {
   const [userInfos, setUserInfos] = useRecoilState(userInfosState);
   const [isSame, setIsSame] = useState(true);
+  const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+  const [changePassword, setChangePassword] = useState(false);
 
   const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname", content: string) => {
     setUserInfos((prevUserInfos) => ({
@@ -39,6 +42,27 @@ const SignUpInputs = (props: SignUpInputsProps) => {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const checkPasswordRule = (value: string) => {
+    if (passwordRule.test(value)) {
+      props.checkPassword(true);
+      setChangePassword(false);
+    } else {
+      props.checkPassword(false);
+      setChangePassword(true);
+    }
+  };
+
+  const checkPasswords = (type: "password" | "passwordCheck", value: string) => {
+    if (
+      (type === "password" && userInfos.passwordCheck === value) ||
+      (type === "passwordCheck" && userInfos.password === value)
+    ) {
+      setIsSame(true);
+    } else {
+      setIsSame(false);
+    }
   };
 
   return (
@@ -71,11 +95,14 @@ const SignUpInputs = (props: SignUpInputsProps) => {
           id={"password"}
           placeholder={"비밀번호를 입력해주세요."}
           onChange={(e) => {
-            changeInputValue("password", e.target.value);
+            const value = e.target.value;
+            changeInputValue("password", value);
+            checkPasswordRule(value);
+            checkPasswords("password", value);
           }}
           required
         />
-        <Rule>{"영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15 자리"}</Rule>
+        {changePassword && <Warning>{"영문, 숫자 조합 8자 이상"}</Warning>}
       </Place>
       <Place>
         <Label htmlFor={"password-check"}>
@@ -88,15 +115,11 @@ const SignUpInputs = (props: SignUpInputsProps) => {
           placeholder={"비밀번호를 다시 입력해주세요."}
           onChange={(e) => {
             changeInputValue("passwordCheck", e.target.value);
-            if (userInfos.password === e.target.value) {
-              setIsSame(true);
-            } else {
-              setIsSame(false);
-            }
+            checkPasswords("passwordCheck", e.target.value);
           }}
           required
         />
-        {!isSame && <Warning>비밀번호와 같지 않습니다.</Warning>}
+        {!isSame && <Warning>비밀번호와 일치하지 않습니다.</Warning>}
       </Place>
       <Place>
         <Label htmlFor={"nickname"}>
@@ -157,12 +180,6 @@ const CheckDuplication = styled.button`
   &:hover {
     background-color: #45b8ab;
   }
-`;
-
-const Rule = styled.p`
-  font-size: 12px;
-  font-weight: 400;
-  color: #8f8f8f;
 `;
 
 const Warning = styled.p`

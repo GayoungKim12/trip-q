@@ -13,6 +13,7 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const [checkEmail, setCheckEmail] = useState(false);
   const [isDuplication, setIsDuplication] = useState<boolean | null>(null);
+  const [checkPassword, setCheckPassword] = useState(false);
 
   useEffect(() => {
     setUserInfos({
@@ -28,7 +29,7 @@ const SignUpForm = () => {
       questions: [],
       saveComments: {},
     });
-  }, []);
+  }, [setUserInfos]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +40,9 @@ const SignUpForm = () => {
       }
       if (isDuplication) {
         return alert("이미 존재하는 이메일입니다.");
+      }
+      if (!checkPassword) {
+        return alert("비밀번호를 조건에 맞게 작성해주세요.");
       }
       if (userInfos.password !== userInfos.passwordCheck) {
         return alert("비밀번호를 확인해주세요.");
@@ -70,8 +74,9 @@ const SignUpForm = () => {
         checkEmail={() => setCheckEmail(true)}
         isDuplication={isDuplication}
         setIsDuplication={(value) => setIsDuplication(value)}
+        checkPassword={(bool) => setCheckPassword(bool)}
       />
-      <TravelPlaces destinations={userInfos.destinations} />
+      <TravelPlaces />
       <Button>가입하기</Button>
     </Form>
   );
