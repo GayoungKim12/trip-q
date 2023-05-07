@@ -24,10 +24,10 @@ const Tools = () => {
       {signInUserState ? (
         <Link to={`/profile/${userId}`}>
           <ImageContainer>
-            {signInUserState.image.length === 0 ? (
-              <BsAirplaneFill />
+            {signInUserState.image.length ? (
+              <Image src={signInUserState.image} alt={`${signInUserState.nickname}의 프로필 이미지`} />
             ) : (
-              <Image src={signInUserState.image} alt={`${signInUserState.uid}의 프로필 사진`} />
+              <BsAirplaneFill />
             )}
           </ImageContainer>
         </Link>
@@ -57,10 +57,13 @@ const ImageContainer = styled.div`
   min-height: 50px;
   border-radius: 50%;
   border: 2px solid #b6b6b6;
-  transform: rotate(45deg);
   font-size: 24px;
   color: #8f8f8f;
   overflow: hidden;
+
+  & > svg {
+    transform: rotate(45deg);
+  }
 `;
 
 const Image = styled.img`

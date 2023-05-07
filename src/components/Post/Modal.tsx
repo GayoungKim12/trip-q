@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { destinations } from "../../constants/Destinations";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import postContent from "../../store/postContents";
+import postContent from "../../store/postContent";
 
 interface ModalProps {
   closeModal: () => void;

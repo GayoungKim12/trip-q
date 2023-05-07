@@ -1,7 +1,10 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { WriterType } from "../../store/datas";
 import { BsAirplaneFill } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import signInUser from "../../store/signInUser";
+import { unavailableUser } from "../../util/unavailableUser";
 
 interface CardHeadProps {
   writer: WriterType;
@@ -10,18 +13,26 @@ interface CardHeadProps {
 
 const CardHead = (props: CardHeadProps) => {
   const { writer, date } = props;
+  const signInUserState = useRecoilValue(signInUser);
+  const navigate = useNavigate();
+
+  const clickProfile = () => {
+    if (signInUserState) {
+      navigate(`/profile/${writer.uid}`);
+    } else {
+      unavailableUser(navigate);
+    }
+  };
 
   return (
     <Container>
-      <Link to={`/profile/${writer.uid}`}>
-        <ImageContainer>
-          {writer.image.length === 0 ? (
-            <BsAirplaneFill />
-          ) : (
-            <Image src={writer.image} alt={`${writer.uid}의 프로필 사진`} />
-          )}
-        </ImageContainer>
-      </Link>
+      <ImageContainer onClick={clickProfile}>
+        {writer.image.length ? (
+          <Image src={writer.image} alt={`${writer.nickname}의 프로필 이미지`} />
+        ) : (
+          <BsAirplaneFill />
+        )}
+      </ImageContainer>
       <Descriptions>
         <Link to={`/profile/${writer.uid}`}>
           <NickName>{writer.nickname}</NickName>
@@ -52,6 +63,7 @@ const ImageContainer = styled.div`
   font-size: 24px;
   color: #8f8f8f;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Image = styled.img`

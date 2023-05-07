@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SelectDestination from "./SelectDestination";
-import postContent from "../../store/postContents";
+import postContent from "../../store/postContent";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import PostInputs from "./PostInputs";
@@ -84,7 +84,7 @@ const PostForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <SelectDestination />
-      <PostInputs />
+      <PostInputs type={"new"} />
       <Buttons />
     </Form>
   );

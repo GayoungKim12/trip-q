@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CardHead from "./CardHead";
 import CardBody from "./CardBody";
-import { PostContentType } from "../../store/postContents";
+import { PostContentType } from "../../store/postContent";
 import signInUser from "../../store/signInUser";
 import { useRecoilValue } from "recoil";
 import DeleteEditButton from "../common/DeleteEditButton";

@@ -1,11 +1,22 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import postContent from "../../store/postContents";
+import postContent from "../../store/postContent";
 
-const PostInputs = () => {
+interface PostInputsProps {
+  type: "new" | "edit";
+}
+
+const PostInputs = (props: PostInputsProps) => {
   const [postContentState, setPostContentState] = useRecoilState(postContent);
   const [inputState, setInputState] = useState("");
+
+  useEffect(() => {
+    if (props.type === "edit" && postContentState.question) {
+      setInputState(postContentState.question);
+    }
+  }, [postContentState.question, props.type]);
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputState(e.target.value);
     setPostContentState({

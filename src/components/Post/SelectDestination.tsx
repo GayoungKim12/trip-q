@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Modal from "./Modal";
 import { useState } from "react";
-import postContent from "../../store/postContents";
+import postContent from "../../store/postContent";
 import { useRecoilValue } from "recoil";
 import Tag from "../common/Tag";
 

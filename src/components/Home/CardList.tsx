@@ -1,39 +1,28 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
+import { useEffect } from "react";
 import Card from "../Card/Card";
-import { PostContentType } from "../../store/postContents";
+import { getPosts } from "../../firebase/getPosts";
+import { useRecoilState } from "recoil";
+import postsState from "../../store/postsState";
+import { CARD_NUMBER_IN_PAGE } from "../../constants/CardNumberInPage";
 
 const CardList = () => {
-  const [datas, setDatas] = useState<[string, PostContentType][] | null>(null);
+  const [posts, setPosts] = useRecoilState(postsState);
 
   useEffect(() => {
     (async () => {
-      const querySnapshot = await db.collection("posts").orderBy("date").limitToLast(5).get();
-      const docIds = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return [
-          doc.id,
-          {
-            writer: data?.writer,
-            date: data?.date,
-            destination: data?.destination,
-            question: data?.question,
-            bestComment: data?.bestComment,
-            comments: data?.comments,
-          },
-        ] as [string, PostContentType];
-      });
-      setDatas(docIds.reverse());
+      const datas = await getPosts(CARD_NUMBER_IN_PAGE);
+      if (!datas) return;
+      setPosts(datas);
     })();
-  }, []);
+  }, [setPosts]);
 
-  if (!datas) return null;
+  if (!posts) return null;
 
   return (
     <Container>
-      {datas.map((data) => {
-        return <Card key={data[0]} qid={data[0]} infos={data[1]} />;
+      {posts.map((post) => {
+        return <Card key={post[0]} qid={post[0]} infos={post[1]} />;
       })}
     </Container>
   );

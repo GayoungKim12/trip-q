@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Writings from "./Writings";
 import Comments from "./Comments";
 import { EditUserInfosType } from "../../store/editUserInfosState";
+import { useRecoilValue } from "recoil";
+import signInUser from "../../store/signInUser";
 
 interface TabsProps {
   userId: string;
@@ -12,6 +14,7 @@ interface TabsProps {
 const Tabs = (props: TabsProps) => {
   const [active, setActive] = useState("writing");
   const { questions, saveComments } = props.userInfos;
+  const signInUserState = useRecoilValue(signInUser);
 
   return (
     <Container>
@@ -22,16 +25,18 @@ const Tabs = (props: TabsProps) => {
             setActive("writing");
           }}
         >
-          작성한 글
+          게시글
         </Tab>
-        <Tab
-          className={active === "storage" ? "active" : ""}
-          onClick={() => {
-            setActive("storage");
-          }}
-        >
-          보관함
-        </Tab>
+        {signInUserState?.uid === props.userId && (
+          <Tab
+            className={active === "storage" ? "active" : ""}
+            onClick={() => {
+              setActive("storage");
+            }}
+          >
+            보관함
+          </Tab>
+        )}
       </TabContainer>
       {active === "writing" ? (
         <Writings questions={questions} userId={props.userId} />
@@ -62,7 +67,7 @@ const Tab = styled.div`
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #8f8f8f;
-  width: 50%;
+  width: 100%;
 
   &.active {
     border-bottom: 2px solid black;

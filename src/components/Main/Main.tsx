@@ -7,6 +7,7 @@ import SuccessSignUpPage from "../../pages/SuccessSignUpPage";
 import EditUserInfosPage from "../../pages/EditUserInfosPage";
 import HomePage from "../../pages/HomePage";
 import PostPage from "../../pages/PostPage";
+import EditPostPage from "../../pages/EditPostPage";
 
 const Main = () => {
   return (
@@ -19,7 +20,7 @@ const Main = () => {
         <Route path={"/signup/success"} element={<SuccessSignUpPage />} />
         <Route path={"/profile/:userId"} element={<ProfilePage />} />
         <Route path={"/edit-profile/:userId"} element={<EditUserInfosPage />} />
-        <Route path={"/edit-post/:userId"} element={<EditUserInfosPage />} />
+        <Route path={"/edit-post/:questionId"} element={<EditPostPage />} />
       </Routes>
     </Container>
   );

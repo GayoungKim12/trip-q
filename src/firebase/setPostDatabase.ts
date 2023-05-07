@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { PostContentType } from "../store/postContents";
+import { PostContentType } from "../store/postContent";
 import { db } from "./firebase";
 import { EditUserInfosType } from "../store/editUserInfosState";
 

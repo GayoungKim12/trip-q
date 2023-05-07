@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Card from "../Card/Card";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
-import { PostContentType } from "../../store/postContents";
+import { PostContentType } from "../../store/postContent";
 
 interface WritingsProps {
   userId: string;

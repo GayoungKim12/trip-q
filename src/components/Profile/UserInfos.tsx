@@ -15,7 +15,7 @@ const UserInfos = (props: UserInfosProps) => {
   return (
     <Container>
       <Middle>
-        <ImageAndNickname userId={infos.email} image={infos.image} nickname={infos.nickname} />
+        <ImageAndNickname image={infos.image} nickname={infos.nickname} />
         <Selected>
           <Number>{infos.selected.toLocaleString()}</Number>
           <Span>답변 채택 수</Span>

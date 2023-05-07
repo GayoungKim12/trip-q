@@ -2,18 +2,17 @@ import { BsAirplaneFill } from "react-icons/bs";
 import styled from "styled-components";
 
 interface ImageAndNicknameProps {
-  userId: string;
   image: string;
   nickname: string;
 }
 
 const ImageAndNickname = (props: ImageAndNicknameProps) => {
-  const { userId, image, nickname } = props;
+  const { image, nickname } = props;
 
   return (
     <Container>
       <ImageContainer>
-        {image.length === 0 ? <BsAirplaneFill /> : <Image src={image} alt={`${userId}의 프로필 사진`} />}
+        {image.length ? <Image src={image} alt={`${nickname}의 프로필 이미지`} /> : <BsAirplaneFill />}
       </ImageContainer>
       <NickName>{nickname}</NickName>
     </Container>

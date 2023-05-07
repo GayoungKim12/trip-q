@@ -6,8 +6,11 @@ import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
+import { getPosts } from "../../firebase/getPosts";
+import postsState from "../../store/postsState";
+import { CARD_NUMBER_IN_PAGE } from "../../constants/CardNumberInPage";
 
 interface DeleteEditButtonProps {
   qid: string;
@@ -18,13 +21,12 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
   const navigate = useNavigate();
   const qid = props.qid;
   const [signInUserState, setSignInUserState] = useRecoilState(signInUser);
+  const setPosts = useSetRecoilState(postsState);
 
   useEffect(() => {
     const clickButtons = (e: MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
-
-      console.log(e.target);
 
       const target = e.target as Element;
       if (target.closest(`.${qid}-edit-and-delete-button`)) return null;
@@ -51,22 +53,26 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     setShow(false);
 
     if (!signInUserState) return null;
-    const { email, nickname, destinations, selected, questions, saveComments, uid } = signInUserState;
+    const { email, nickname, image, destinations, selected, questions, saveComments, uid } = signInUserState;
     const newQuestionList = questions.filter((question) => question !== qid);
 
     await deleteDoc(doc(db, "posts", qid));
     setSignInUserState({ ...signInUserState, questions: newQuestionList });
 
-    const userInfosRef = doc(db, "users", signInUserState.uid);
+    const userInfosRef = doc(db, "users", uid);
     await setDoc(userInfosRef, {
-      uid,
       email,
+      image,
       nickname,
       destinations,
       selected,
       questions: newQuestionList,
       saveComments,
     });
+
+    const datas = await getPosts(CARD_NUMBER_IN_PAGE);
+    if (!datas) return;
+    setPosts(datas);
   };
 
   const clickEdit = (e: React.MouseEvent) => {
