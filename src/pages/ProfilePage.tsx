@@ -2,24 +2,19 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import EditProfileButton from "../components/Profile/EditProfileButton";
 import Profile from "../components/Profile/Profile";
-import { authService } from "../firebase/firebase";
 import LogOutButton from "../components/Profile/LogoutButton";
 import { useEffect, useState } from "react";
+import signInUser from "../store/signInUser";
+import { useRecoilValue } from "recoil";
 
 const ProfilePage = () => {
   const { userId } = useParams();
-  const [myUserId, setMyUserId] = useState<string | null>(null);
+  const signInUserState = useRecoilValue(signInUser);
+  const [myUserId, setMyUserId] = useState<string | undefined>(signInUserState?.uid);
 
   useEffect(() => {
-    const unsubscribe = authService.onAuthStateChanged((user) => {
-      if (user) {
-        setMyUserId(user.uid);
-      } else {
-        setMyUserId(null);
-      }
-    });
-    return unsubscribe;
-  }, []);
+    setMyUserId(signInUserState?.uid);
+  }, [signInUserState?.uid]);
 
   if (!userId) return <>없는 페이지입니다.</>;
 

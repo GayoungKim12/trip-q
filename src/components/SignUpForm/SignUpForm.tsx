@@ -21,6 +21,7 @@ const SignUpForm = () => {
       password: "",
       passwordCheck: "",
       nickname: "",
+      image: "",
       destinations: {
         domestic: [],
         abroad: [],
@@ -55,6 +56,7 @@ const SignUpForm = () => {
       const userData = {
         email: userInfos.email,
         nickname: userInfos.nickname,
+        image: userInfos.image,
         destinations: userInfos.destinations,
         selected: userInfos.selected,
         questions: userInfos.questions,

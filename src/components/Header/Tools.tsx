@@ -1,30 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { authService } from "../../firebase/firebase";
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import signInUser from "../../store/signInUser";
+import { BsAirplaneFill } from "react-icons/bs";
 
 const Tools = () => {
   const navigate = useNavigate();
-  const [signInUser, setSignInUser] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const signInUserState = useRecoilValue(signInUser);
 
   useEffect(() => {
-    const unsubscribe = authService.onAuthStateChanged((user) => {
-      if (user) {
-        setSignInUser(user.uid);
-      } else {
-        setSignInUser(null);
-      }
-    });
-    return unsubscribe;
-  }, []);
+    if (signInUserState?.uid) {
+      setUserId(signInUserState.uid);
+    } else {
+      setUserId(null);
+    }
+  }, [signInUserState]);
 
   return (
     <Container>
       <Search type="text" placeholder="여행지를 입력해주세요." />
-      {signInUser ? (
-        <Link to={`/profile/${signInUser}`}>
+      {signInUserState ? (
+        <Link to={`/profile/${userId}`}>
           <ImageContainer>
-            <Image src={"https://via.placeholder.com/100x100"} alt={`${signInUser}의 프로필 사진`} />
+            {signInUserState.image.length === 0 ? (
+              <BsAirplaneFill />
+            ) : (
+              <Image src={signInUserState.image} alt={`${signInUserState.uid}의 프로필 사진`} />
+            )}
           </ImageContainer>
         </Link>
       ) : (
@@ -49,13 +53,18 @@ const ImageContainer = styled.div`
   justify-content: center;
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   border: 2px solid #b6b6b6;
+  transform: rotate(45deg);
+  font-size: 24px;
+  color: #8f8f8f;
   overflow: hidden;
 `;
 
 const Image = styled.img`
-  width: 90%;
+  width: 100%;
   border-radius: 50%;
 `;
 

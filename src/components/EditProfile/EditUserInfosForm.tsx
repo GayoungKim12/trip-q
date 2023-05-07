@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import EditUserInfosInputs from "./EditUserInfosInputs";
 import EditTravelPlaces from "./EditTravelPlaces";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import editUserInfosState from "../../store/editUserInfosState";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import signInUser from "../../store/signInUser";
+import { unavailableUser } from "../../util/unavailableUser";
 
 interface EditUserInfosFormProps {
   userId: string;
@@ -14,12 +16,18 @@ interface EditUserInfosFormProps {
 const EditUserInfosForm = (props: EditUserInfosFormProps) => {
   const navigate = useNavigate();
   const editUserInfos = useRecoilValue(editUserInfosState);
+  const [signInUserState, setSignInUserState] = useRecoilState(signInUser);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!signInUserState) {
+      return unavailableUser(navigate);
+    }
+
     const userInfosRef = doc(db, "users", props.userId);
-    setDoc(userInfosRef, editUserInfos);
+    await setDoc(userInfosRef, editUserInfos);
+    setSignInUserState({ ...signInUserState, ...editUserInfos });
 
     navigate(`/profile/${props.userId}`);
   };

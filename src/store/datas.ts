@@ -1,5 +1,5 @@
 export interface WriterType {
-  id: string;
+  uid: string;
   nickname: string;
   image: string;
 }
@@ -22,7 +22,7 @@ const datas: DatasType = {
   q48573975: {
     id: "q48573975",
     writer: {
-      id: "gildong",
+      uid: "gildong",
       nickname: "홍길동",
       image: "https://via.placeholder.com/100x100",
     },
@@ -35,7 +35,7 @@ const datas: DatasType = {
   q48573976: {
     id: "q48573976",
     writer: {
-      id: "kitty",
+      uid: "kitty",
       nickname: "Kitty",
       image: "https://via.placeholder.com/100x100",
     },
@@ -47,7 +47,7 @@ const datas: DatasType = {
   q48573979: {
     id: "q48573979",
     writer: {
-      id: "green",
+      uid: "green",
       nickname: "Green01",
       image: "https://via.placeholder.com/100x100",
     },

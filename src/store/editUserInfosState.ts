@@ -8,6 +8,7 @@ export interface DestinationsType {
 export interface EditUserInfosType {
   email: string;
   nickname: string;
+  image: string;
   destinations: DestinationsType;
   selected: number;
   questions: string[];
@@ -21,6 +22,7 @@ const editUserInfosState = atom<EditUserInfosType>({
   default: {
     email: "",
     nickname: "",
+    image: "",
     destinations: {
       domestic: [],
       abroad: [],

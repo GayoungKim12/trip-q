@@ -1,3 +1,4 @@
+import { BsAirplaneFill } from "react-icons/bs";
 import styled from "styled-components";
 
 interface ImageAndNicknameProps {
@@ -12,7 +13,7 @@ const ImageAndNickname = (props: ImageAndNicknameProps) => {
   return (
     <Container>
       <ImageContainer>
-        <Image src={image} alt={`${userId}의 프로필 사진`} />
+        {image.length === 0 ? <BsAirplaneFill /> : <Image src={image} alt={`${userId}의 프로필 사진`} />}
       </ImageContainer>
       <NickName>{nickname}</NickName>
     </Container>
@@ -32,13 +33,19 @@ const ImageContainer = styled.div`
   justify-content: center;
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   border: 2px solid #b6b6b6;
+  transform: rotate(45deg);
+  font-size: 24px;
+  color: #8f8f8f;
   overflow: hidden;
 `;
 
 const Image = styled.img`
-  width: 90%;
+  width: 100%;
+  margin-left: 0.5px;
   border-radius: 50%;
 `;
 

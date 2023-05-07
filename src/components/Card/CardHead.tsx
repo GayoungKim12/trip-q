@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { WriterType } from "../../store/datas";
+import { BsAirplaneFill } from "react-icons/bs";
 
 interface CardHeadProps {
   writer: WriterType;
@@ -12,16 +13,20 @@ const CardHead = (props: CardHeadProps) => {
 
   return (
     <Container>
-      <Link to={`/profile/${writer.id}`}>
+      <Link to={`/profile/${writer.uid}`}>
         <ImageContainer>
-          <Image src={writer.image} alt={`${writer.id}의 프로필 사진`} />
+          {writer.image.length === 0 ? (
+            <BsAirplaneFill />
+          ) : (
+            <Image src={writer.image} alt={`${writer.uid}의 프로필 사진`} />
+          )}
         </ImageContainer>
       </Link>
       <Descriptions>
-        <Link to={`/profile/${writer.id}`}>
+        <Link to={`/profile/${writer.uid}`}>
           <NickName>{writer.nickname}</NickName>
         </Link>
-        <Date>{date}</Date>
+        <Date>{`${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`}</Date>
       </Descriptions>
     </Container>
   );
@@ -39,13 +44,18 @@ const ImageContainer = styled.div`
   justify-content: center;
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   border: 2px solid #b6b6b6;
+  transform: rotate(45deg);
+  font-size: 24px;
+  color: #8f8f8f;
   overflow: hidden;
 `;
 
 const Image = styled.img`
-  width: 90%;
+  width: 100%;
   border-radius: 50%;
 `;
 

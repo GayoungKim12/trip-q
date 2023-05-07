@@ -10,6 +10,7 @@ export interface UserInfosType {
   password: string;
   passwordCheck: string;
   nickname: string;
+  image: string;
   destinations: DestinationsType;
   selected: number;
   questions: string[];
@@ -25,6 +26,7 @@ const userInfosState = atom<UserInfosType>({
     password: "",
     passwordCheck: "",
     nickname: "",
+    image: "",
     destinations: {
       domestic: [],
       abroad: [],

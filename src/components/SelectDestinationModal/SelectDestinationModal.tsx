@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { destinations } from "../../constants/destinations";
+import { destinations } from "../../constants/Destinations";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import userInfosState from "../../store/userInfosState";
@@ -7,7 +7,7 @@ import editUserInfosState from "../../store/editUserInfosState";
 
 interface SelectDestinationModalProps {
   type: "new" | "edit";
-  standard?: "국내" | "해외";
+  standard: "국내" | "해외";
   closeModal: () => void;
 }
 

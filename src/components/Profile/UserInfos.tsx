@@ -1,25 +1,21 @@
 import styled from "styled-components";
 import ImageAndNickname from "./ImageAndNickname";
 import Travels from "./Travels";
-import { DocumentData } from "firebase/firestore";
+import { EditUserInfosType } from "../../store/editUserInfosState";
 
 interface UserInfosProps {
-  userInfos: DocumentData;
+  userInfos: EditUserInfosType;
 }
 
 const UserInfos = (props: UserInfosProps) => {
   const infos = props.userInfos;
 
-  if (!infos) return <>NOT USER</>;
+  if (!infos) return <>Loading...</>;
 
   return (
     <Container>
       <Middle>
-        <ImageAndNickname
-          userId={infos.email}
-          image={"https://via.placeholder.com/100x100"}
-          nickname={infos.nickname}
-        />
+        <ImageAndNickname userId={infos.email} image={infos.image} nickname={infos.nickname} />
         <Selected>
           <Number>{infos.selected.toLocaleString()}</Number>
           <Span>답변 채택 수</Span>

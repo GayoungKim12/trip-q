@@ -3,6 +3,7 @@ import { db } from "./firebase";
 export interface UserDataType {
   email: string;
   nickname: string;
+  image: string;
   destinations: {
     domestic: string[];
     abroad: string[];
@@ -14,13 +15,12 @@ export interface UserDataType {
   };
 }
 
-const setUserDatabase = (userId: string, userInfos: UserDataType) => {
-  db.collection("users")
-    .doc(userId)
-    .set(userInfos)
-    .catch((error) => {
-      console.error(error);
-    });
+const setUserDatabase = async (userId: string, userInfos: UserDataType) => {
+  try {
+    await db.collection("users").doc(userId).set(userInfos);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export default setUserDatabase;

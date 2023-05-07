@@ -1,10 +1,9 @@
-import { doc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
-import { db } from "../../firebase/firebase";
 import styled from "styled-components";
 import EditUserInfosForm from "./EditUserInfosForm";
-import { useRecoilState } from "recoil";
-import editUserInfosState, { EditUserInfosType } from "../../store/editUserInfosState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import editUserInfosState from "../../store/editUserInfosState";
+import signInUser from "../../store/signInUser";
 
 interface EditProfileProps {
   userId: string;
@@ -13,32 +12,25 @@ interface EditProfileProps {
 const EditProfile = (props: EditProfileProps) => {
   const userId = props.userId;
   const [editUserInfos, setEditUserInfos] = useRecoilState(editUserInfosState);
+  const signInUserState = useRecoilValue(signInUser);
 
   useEffect(() => {
     if (!userId) return;
+    if (!signInUserState) return;
 
-    const getUserInfos = async () => {
-      const docRef = doc(db, "users", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const prev = docSnap.data();
-        const prevUserInfos: EditUserInfosType = {
-          email: prev.email,
-          nickname: prev.nickname,
-          destinations: prev.destinations,
-          selected: prev.selected,
-          questions: prev.questions,
-          saveComments: prev.saveComments,
-        };
+    const { email, nickname, image, destinations, selected, questions, saveComments } = signInUserState;
+    setEditUserInfos({
+      email,
+      nickname,
+      image,
+      destinations,
+      selected,
+      questions,
+      saveComments,
+    });
+  }, [setEditUserInfos, userId, signInUserState]);
 
-        setEditUserInfos(prevUserInfos);
-      }
-    };
-
-    getUserInfos();
-  }, [setEditUserInfos, userId]);
-
-  if (!editUserInfos.email) return <>NOT USER</>;
+  if (!editUserInfos.email) return <>Loading...</>;
 
   return (
     <Container>

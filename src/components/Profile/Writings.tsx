@@ -1,12 +1,40 @@
 import styled from "styled-components";
-import datas from "../../store/datas";
 import Card from "../Card/Card";
+import { useEffect, useState } from "react";
+import { db } from "../../firebase/firebase";
+import { PostContentType } from "../../store/postContents";
 
 interface WritingsProps {
+  userId: string;
   questions: string[];
 }
 
 const Writings = (props: WritingsProps) => {
+  const [datas, setDatas] = useState<[string, PostContentType][] | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const querySnapshot = await db.collection("posts").where("writer.uid", "==", props.userId).get();
+      const docIds = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return [
+          doc.id,
+          {
+            writer: data?.writer,
+            date: data?.date,
+            destination: data?.destination,
+            question: data?.question,
+            bestComment: data?.bestComment,
+            comments: data?.comments,
+          },
+        ] as [string, PostContentType];
+      });
+      setDatas(docIds.reverse());
+    })();
+  }, [props.userId]);
+
+  if (!datas) return null;
+
   if (props.questions.length === 0) {
     return (
       <Container>
@@ -17,8 +45,8 @@ const Writings = (props: WritingsProps) => {
 
   return (
     <Container>
-      {props.questions.map((question, index) => {
-        return <Card key={index} infos={datas[question]} />;
+      {datas.map((data) => {
+        return <Card key={data[0]} qid={data[0]} infos={data[1]} />;
       })}
     </Container>
   );

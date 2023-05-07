@@ -8,7 +8,6 @@ interface TravelsProps {
 }
 
 const Travels = (props: TravelsProps) => {
-  console.log(props.destinations);
   const { domestic, abroad } = props.destinations;
 
   return (

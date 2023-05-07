@@ -17,31 +17,27 @@ const SignUpInputs = (props: SignUpInputsProps) => {
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
   const [changePassword, setChangePassword] = useState(false);
 
-  const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname", content: string) => {
+  const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname" | "image", content: string) => {
     setUserInfos((prevUserInfos) => ({
       ...prevUserInfos,
       [type]: content,
     }));
   };
 
-  const checkDuplication = (e: React.MouseEvent, email: string) => {
+  const checkDuplication = async (e: React.MouseEvent, email: string) => {
     e.preventDefault();
 
     props.checkEmail();
-
-    db.collection("users")
-      .where("email", "==", email)
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.size > 0) {
-          props.setIsDuplication(true);
-        } else {
-          props.setIsDuplication(false);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const querySnapshot = await db.collection("users").where("email", "==", email).get();
+      if (querySnapshot.size > 0) {
+        props.setIsDuplication(true);
+      } else {
+        props.setIsDuplication(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const checkPasswordRule = (value: string) => {
@@ -134,6 +130,20 @@ const SignUpInputs = (props: SignUpInputsProps) => {
             changeInputValue("nickname", e.target.value);
           }}
           required
+        />
+      </Place>
+      <Place>
+        <Label htmlFor={"image"}>
+          {"프로필 이미지 URL"}
+          <span></span>
+        </Label>
+        <Input
+          type={"text"}
+          id={"image"}
+          placeholder={"이미지 주소를 입력해주세요."}
+          onChange={(e) => {
+            changeInputValue("image", e.target.value);
+          }}
         />
       </Place>
     </>

@@ -5,10 +5,10 @@ import editUserInfosState from "../../store/editUserInfosState";
 const SignUpInputs = () => {
   const [editUserInfos, setEditUserInfos] = useRecoilState(editUserInfosState);
 
-  const changeNickname = (content: string) => {
+  const changeInputValue = (type: "nickname" | "image", content: string) => {
     setEditUserInfos((prevUserInfos) => ({
       ...prevUserInfos,
-      ["nickname"]: content,
+      [type]: content,
     }));
   };
 
@@ -26,7 +26,22 @@ const SignUpInputs = () => {
           placeholder={"닉네임을 입력해주세요."}
           value={`${editUserInfos.nickname}`}
           onChange={(e) => {
-            changeNickname(e.target.value);
+            changeInputValue("nickname", e.target.value);
+          }}
+        />
+      </Place>
+      <Place>
+        <Label htmlFor={"profile-image"}>
+          {"프로필 이미지 URL"}
+          <span></span>
+        </Label>
+        <Input
+          type={"text"}
+          id={"profile-image"}
+          placeholder={"이미지 주소를 입력해주세요."}
+          value={`${editUserInfos.image}`}
+          onChange={(e) => {
+            changeInputValue("image", e.target.value);
           }}
         />
       </Place>

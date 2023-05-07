@@ -1,3 +1,0 @@
-const WritePostPage = () => {
-  return <></>;
-};

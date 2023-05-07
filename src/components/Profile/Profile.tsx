@@ -1,8 +1,8 @@
 import Tabs from "./Tabs";
 import UserInfos from "./UserInfos";
 import { useEffect, useState } from "react";
-import { DocumentData, doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { getUserInfos } from "../../firebase/getUserInfos";
+import { EditUserInfosType } from "../../store/editUserInfosState";
 
 interface ProfileProps {
   userId: string;
@@ -10,29 +10,34 @@ interface ProfileProps {
 
 const Profile = (props: ProfileProps) => {
   const userId = props.userId;
-  const [userInfos, setUserInfos] = useState<DocumentData | null>(null);
+  const [userInfos, setUserInfos] = useState<EditUserInfosType | null>(null);
 
   useEffect(() => {
     if (!userId) return;
 
-    const getUserInfos = async () => {
-      const docRef = doc(db, "users", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const newUserInfos = docSnap.data();
-        setUserInfos(newUserInfos);
-      }
-    };
+    (async () => {
+      const infos = await getUserInfos(userId);
 
-    getUserInfos();
+      const newInfos = {
+        email: infos?.email,
+        nickname: infos?.nickname,
+        image: infos?.image,
+        destinations: infos?.destinations,
+        selected: infos?.selected,
+        questions: infos?.questions,
+        saveComments: infos?.saveComments,
+      };
+
+      setUserInfos(newInfos);
+    })();
   }, [userId]);
 
-  if (!userInfos) return <>NOT USER</>;
+  if (!userInfos) return <>Loading...</>;
 
   return (
     <>
       <UserInfos userInfos={userInfos} />
-      <Tabs userInfos={userInfos} />
+      <Tabs userInfos={userInfos} userId={userId} />
     </>
   );
 };
