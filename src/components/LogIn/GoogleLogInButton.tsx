@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { signInWithGoogle } from "../../firebase/firebaseProvider";
+import { signInWithGoogle } from "../../firebase/signInWithGoogle";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +7,7 @@ const GoogleLoginButton = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const uid = signInWithGoogle(navigate);
-    console.log(uid);
+    signInWithGoogle(navigate);
   };
 
   return (
