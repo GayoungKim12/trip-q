@@ -20,7 +20,7 @@ const Main = () => {
         <Route path={"/signup/success"} element={<SuccessSignUpPage />} />
         <Route path={"/profile/:userId"} element={<ProfilePage />} />
         <Route path={"/edit-profile/:userId"} element={<EditUserInfosPage />} />
-        <Route path={"/edit-post/:questionId"} element={<EditPostPage />} />
+        <Route path={"/edit-post/:postId"} element={<EditPostPage />} />
       </Routes>
     </Container>
   );

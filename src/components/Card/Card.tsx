@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import DeleteEditButton from "../common/DeleteEditButton";
 
 interface CardProps {
-  qid: string;
+  pid: string;
   infos: PostContentType;
 }
 
@@ -19,7 +19,7 @@ const Card = (props: CardProps) => {
     <Container>
       <Top>
         <CardHead writer={writer} date={date} />
-        {writer.uid === signInUserState?.uid && <DeleteEditButton qid={props.qid} />}
+        {writer.uid === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
       </Top>
       <CardBody destination={destination} question={question} answer={bestComment ? bestComment : null} />
       <MoreComments>댓글 더보기...</MoreComments>

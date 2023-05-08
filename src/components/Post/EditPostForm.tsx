@@ -13,11 +13,11 @@ import { db } from "../../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 
 interface EditPostFormProps {
-  qid: string;
+  pid: string;
 }
 
 const EditPostForm = (props: EditPostFormProps) => {
-  const qid = props.qid;
+  const pid = props.pid;
   const navigate = useNavigate();
   const [postContentState, setPostContentState] = useRecoilState(postContent);
   const signInUserState = useRecoilValue(signInUser);
@@ -25,7 +25,7 @@ const EditPostForm = (props: EditPostFormProps) => {
   useEffect(() => {
     if (!signInUserState) return;
     (async () => {
-      const data = await getQuestionInfos(qid);
+      const data = await getQuestionInfos(pid);
       setPostContentState({
         writer: data?.writer,
         date: data?.date,
@@ -35,7 +35,7 @@ const EditPostForm = (props: EditPostFormProps) => {
         comments: data?.comments,
       });
     })();
-  }, [qid, signInUserState, setPostContentState]);
+  }, [pid, signInUserState, setPostContentState]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +44,7 @@ const EditPostForm = (props: EditPostFormProps) => {
       return unavailableUser(navigate);
     }
 
-    const postContentRef = doc(db, "posts", qid);
+    const postContentRef = doc(db, "posts", pid);
     await setDoc(postContentRef, postContentState);
 
     navigate(`/`);

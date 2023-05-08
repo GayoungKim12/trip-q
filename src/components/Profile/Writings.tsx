@@ -46,7 +46,7 @@ const Writings = (props: WritingsProps) => {
   return (
     <Container>
       {datas.map((data) => {
-        return <Card key={data[0]} qid={data[0]} infos={data[1]} />;
+        return <Card key={data[0]} pid={data[0]} infos={data[1]} />;
       })}
     </Container>
   );

@@ -22,7 +22,7 @@ const CardList = () => {
   return (
     <Container>
       {posts.map((post) => {
-        return <Card key={post[0]} qid={post[0]} infos={post[1]} />;
+        return <Card key={post[0]} pid={post[0]} infos={post[1]} />;
       })}
     </Container>
   );

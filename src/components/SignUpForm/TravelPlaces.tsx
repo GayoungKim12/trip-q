@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Tag from "../common/Tag";
 import PlusTag from "../common/PlusTag";
-import SelectDestinationModal from "../SelectDestinationModal/SelectDestinationModal";
+import SelectDestinationModal from "../common/SelectDestinationModal";
 import { useEffect, useState } from "react";
 import userInfosState from "../../store/userInfosState";
 import { useRecoilState } from "recoil";

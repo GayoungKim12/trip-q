@@ -3,13 +3,13 @@ import EditPostForm from "../components/Post/EditPostForm";
 import { useParams } from "react-router-dom";
 
 const EditPostPage = () => {
-  const { questionId } = useParams();
+  const { postId } = useParams();
 
-  if (!questionId) return null;
+  if (!postId) return null;
 
   return (
     <Container>
-      <EditPostForm qid={questionId} />
+      <EditPostForm pid={postId} />
     </Container>
   );
 };

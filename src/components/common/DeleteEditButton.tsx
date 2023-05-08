@@ -13,13 +13,13 @@ import postsState from "../../store/postsState";
 import { CARD_NUMBER_IN_PAGE } from "../../constants/CardNumberInPage";
 
 interface DeleteEditButtonProps {
-  qid: string;
+  pid: string;
 }
 
 const DeleteEditButton = (props: DeleteEditButtonProps) => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  const qid = props.qid;
+  const pid = props.pid;
   const [signInUserState, setSignInUserState] = useRecoilState(signInUser);
   const setPosts = useSetRecoilState(postsState);
 
@@ -29,7 +29,7 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
       e.preventDefault();
 
       const target = e.target as Element;
-      if (target.closest(`.${qid}-edit-and-delete-button`)) return null;
+      if (target.closest(`.${pid}-edit-and-delete-button`)) return null;
 
       setShow(false);
     };
@@ -41,7 +41,7 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     return () => {
       window.removeEventListener("click", clickButtons);
     };
-  }, [show, qid]);
+  }, [show, pid]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -54,9 +54,9 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
 
     if (!signInUserState) return null;
     const { email, nickname, image, destinations, selected, questions, saveComments, uid } = signInUserState;
-    const newQuestionList = questions.filter((question) => question !== qid);
+    const newQuestionList = questions.filter((question) => question !== pid);
 
-    await deleteDoc(doc(db, "posts", qid));
+    await deleteDoc(doc(db, "posts", pid));
     setSignInUserState({ ...signInUserState, questions: newQuestionList });
 
     const userInfosRef = doc(db, "users", uid);
@@ -79,13 +79,13 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     e.preventDefault();
     setShow(false);
 
-    navigate(`/edit-post/${qid}`);
+    navigate(`/edit-post/${pid}`);
   };
 
   return (
     <Container>
       {show && (
-        <Buttons className={`${qid}-edit-and-delete-button`}>
+        <Buttons className={`${pid}-edit-and-delete-button`}>
           <DeleteButton onClick={clickDelete}>
             <BsTrash3 />
             삭제하기
@@ -96,7 +96,7 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
           </EditButton>
         </Buttons>
       )}
-      <Button onClick={handleClick} className={`${qid}-edit-and-delete-button`}>
+      <Button onClick={handleClick} className={`${pid}-edit-and-delete-button`}>
         <GoKebabHorizontal />
       </Button>
     </Container>
