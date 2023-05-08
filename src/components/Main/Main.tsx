@@ -8,6 +8,7 @@ import EditUserInfosPage from "../../pages/EditUserInfosPage";
 import HomePage from "../../pages/HomePage";
 import PostPage from "../../pages/PostPage";
 import EditPostPage from "../../pages/EditPostPage";
+import PostAndCommentPage from "../../pages/PostAndComentPage";
 
 const Main = () => {
   return (
@@ -15,6 +16,7 @@ const Main = () => {
       <Routes>
         <Route path={"/"} element={<HomePage />} />
         <Route path={"/post"} element={<PostPage />} />
+        <Route path={"/post/:postId"} element={<PostAndCommentPage />} />
         <Route path={"/login"} element={<LogInPage />} />
         <Route path={"/signup"} element={<SignUpPage />} />
         <Route path={"/signup/success"} element={<SuccessSignUpPage />} />
