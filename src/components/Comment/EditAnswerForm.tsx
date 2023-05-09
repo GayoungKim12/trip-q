@@ -23,9 +23,10 @@ const EditAnswerForm = (props: EditAnswerFormProps) => {
 
     setComments({ ...comments, [cid]: { ...comments[cid], content: comment } });
 
-    const commentRef = doc(db, "comments", pid);
+    const postRef = db.collection("posts").doc(pid);
+    const commentRef = postRef.collection("comments").doc(cid);
     await updateDoc(commentRef, {
-      [`${cid}.content`]: comment,
+      ["content"]: comment,
     });
 
     closeEditForm();

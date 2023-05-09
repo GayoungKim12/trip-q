@@ -50,7 +50,7 @@ const PostAndComment = (props: PostAndCommentProps) => {
         </Explanation>
       </ProfileAndQuestion>
       <CommentForm pid={pid} />
-      <CommentList pid={pid} comments={postInfos.comments} />
+      <CommentList pid={pid} />
     </Container>
   );
 };

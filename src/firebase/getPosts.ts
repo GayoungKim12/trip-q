@@ -14,8 +14,6 @@ export const getPosts = async (limit: number) => {
           date: data?.date,
           destination: data?.destination,
           question: data?.question,
-          bestComment: data?.bestComment,
-          comments: data?.comments,
         },
       ] as [string, PostContentType];
     });

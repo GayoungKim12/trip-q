@@ -24,8 +24,6 @@ const PostForm = () => {
       date: "",
       destination: [],
       question: "",
-      bestComment: "",
-      comments: [],
     });
   }, [setPostContentState]);
 

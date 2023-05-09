@@ -14,7 +14,7 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const { writer, date, destination, question, bestComment } = props.infos;
+  const { writer, date, destination, question } = props.infos;
   const signInUserState = useRecoilValue(signInUser);
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const Card = (props: CardProps) => {
         <CardHead writer={writer} date={date} />
         {writer === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
       </Top>
-      <CardBody destination={destination} question={question} answer={bestComment ? bestComment : null} />
+      <CardBody destination={destination} question={question} answer={null} />
       <MoreComments>
         <Span onClick={handleClick}>댓글 더보기...</Span>
       </MoreComments>

@@ -1,30 +1,24 @@
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { CommentsType } from "../store/comments";
 
-const getCommentsByPid = async (pid: string) => {
+const getCommentsByPid = async (pid: string, limit = 100) => {
   try {
-    const docRef = doc(db, "comments", pid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const comments = docSnap.data();
-      const result: CommentsType = {};
+    const docRef = db.collection("posts").doc(pid);
+    const querySnapshot = await docRef.collection("comments").orderBy("date").limitToLast(limit).get();
+    const result: CommentsType = {};
 
-      Object.keys(comments)
-        .sort((a: string, b: string) => a.localeCompare(b))
-        .reverse()
-        .forEach((commentId: string) => {
-          result[commentId] = {
-            writer: comments[commentId].writer,
-            date: comments[commentId].date,
-            content: comments[commentId].content,
-            pid: comments[commentId].pid,
-            selected: comments[commentId].selected,
-          };
-        });
+    querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      result[doc.id] = {
+        writer: data?.writer,
+        date: data?.date,
+        pid: data?.pid,
+        content: data?.content,
+        selected: data?.selected,
+      };
+    });
 
-      return result;
-    }
+    return result;
   } catch (err) {
     console.error(err);
   }

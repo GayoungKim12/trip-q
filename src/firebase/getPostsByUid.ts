@@ -13,8 +13,6 @@ export const getPostsByUid = async (userId: string) => {
         date: data?.date,
         destination: data?.destination,
         question: data?.question,
-        bestComment: data?.bestComment,
-        comments: data?.comments,
       },
     ] as [string, PostContentType];
   });

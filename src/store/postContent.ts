@@ -5,8 +5,6 @@ export interface PostContentType {
   date: string;
   destination: string[];
   question: string;
-  bestComment: string;
-  comments: string[]; // 리뷰 id
 }
 
 const postContent = atom<PostContentType>({
@@ -16,8 +14,6 @@ const postContent = atom<PostContentType>({
     date: "",
     destination: [],
     question: "",
-    bestComment: "",
-    comments: [],
   },
 });
 

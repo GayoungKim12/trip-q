@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { arrayRemove, deleteField, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
@@ -49,15 +48,9 @@ const CommentButtons = (props: CommentButtonsProps) => {
     e.preventDefault();
     setShow(false);
 
-    const commentRef = doc(db, "comments", pid);
-    await updateDoc(commentRef, {
-      [cid]: deleteField(),
-    });
-
-    const postRef = doc(db, "posts", pid);
-    await updateDoc(postRef, {
-      comments: arrayRemove(cid),
-    });
+    const postRef = db.collection("posts").doc(pid);
+    const commentRef = postRef.collection("comments").doc(cid);
+    await commentRef.delete();
 
     setComments((prev) => {
       const newComments: CommentsType = {};

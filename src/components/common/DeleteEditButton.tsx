@@ -4,13 +4,14 @@ import { GoKebabHorizontal } from "react-icons/go";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
 import { getPosts } from "../../firebase/getPosts";
 import postsState from "../../store/postsState";
 import { CARD_NUMBER_IN_PAGE } from "../../constants/CardNumberInPage";
+import deletePostWithComments from "../../firebase/deleteDocWithCollection";
 
 interface DeleteEditButtonProps {
   pid: string;
@@ -57,8 +58,7 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     const newQuestionList = questions.filter((question) => question !== pid);
 
     setSignInUserState({ ...signInUserState, questions: newQuestionList });
-    await deleteDoc(doc(db, "posts", pid));
-    await deleteDoc(doc(db, "comments", pid));
+    await deletePostWithComments(pid);
 
     const userInfosRef = doc(db, "users", uid);
     await updateDoc(userInfosRef, {
@@ -68,6 +68,8 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     const datas = await getPosts(CARD_NUMBER_IN_PAGE);
     if (!datas) return;
     setPosts(datas);
+
+    navigate("/");
   };
 
   const clickEdit = (e: React.MouseEvent) => {

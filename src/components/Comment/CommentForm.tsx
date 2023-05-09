@@ -44,19 +44,17 @@ const CommentForm = (props: WriteCommentProps) => {
     const uid = signInUserState.uid;
     const { id, date } = setId("c", uid);
     const commentInfos = {
-      [id]: {
-        content: comment,
-        writer: uid,
-        date,
-        selected: 0,
-        pid: pid,
-      },
+      content: comment,
+      writer: uid,
+      date,
+      selected: 0,
+      pid: pid,
     };
 
     await setCommentDatabase(pid, id, commentInfos);
 
     setComments((prev) => {
-      return { ...commentInfos, ...prev };
+      return { [id]: commentInfos, ...prev };
     });
   };
 

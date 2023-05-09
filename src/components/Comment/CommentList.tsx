@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 interface CommentList {
   pid: string;
-  comments: string[];
 }
 
 const CommentList = (props: CommentList) => {
@@ -16,7 +15,7 @@ const CommentList = (props: CommentList) => {
 
   useEffect(() => {
     (async () => {
-      const datas = await getCommentsByPid(pid);
+      const datas = await getCommentsByPid(pid, 100);
       if (datas) {
         setComments({ ...datas });
       }
