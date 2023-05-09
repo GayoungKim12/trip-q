@@ -6,12 +6,12 @@ import usersState, { WriterType } from "../../store/usersState";
 import { getUserInfos } from "../../firebase/getUserInfos";
 import { useNavigate } from "react-router-dom";
 
-interface ProfileAndQuestionProps {
+interface ProfileAreaProps {
   writer: string;
   date: string;
 }
 
-const ProfileArea = (props: ProfileAndQuestionProps) => {
+const ProfileArea = (props: ProfileAreaProps) => {
   const { writer, date } = props;
   const navigate = useNavigate();
   const [users, setUsers] = useRecoilState(usersState);
@@ -81,7 +81,8 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const NickName = styled.span`

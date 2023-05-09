@@ -49,7 +49,9 @@ const EditPostForm = (props: EditPostFormProps) => {
     const postContentRef = doc(db, "posts", pid);
     await setDoc(postContentRef, postContentState);
 
-    setPosts({ ...posts, pid: postContentState });
+    if (posts[pid]) {
+      setPosts({ ...posts, pid: postContentState });
+    }
 
     navigate(`/post/${pid}`);
   };

@@ -68,7 +68,8 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Search = styled.input`

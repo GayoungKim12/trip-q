@@ -1,12 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { IoSend } from "react-icons/io5";
-import Month from "../../constants/Month";
 import signInUser from "../../store/signInUser";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { unavailableUser } from "../../util/unavailableUser";
 import { useNavigate } from "react-router-dom";
 import setCommentDatabase from "../../firebase/setCommentDatabase";
+import commentsState from "../../store/comments";
+import { setId } from "../../util/setId";
 
 interface WriteCommentProps {
   pid: string;
@@ -15,6 +16,7 @@ interface WriteCommentProps {
 const CommentForm = (props: WriteCommentProps) => {
   const pid = props.pid;
   const [comment, setComment] = useState("");
+  const setComments = useSetRecoilState(commentsState);
   const signInUserState = useRecoilValue(signInUser);
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ const CommentForm = (props: WriteCommentProps) => {
     setComment(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!signInUserState) {
@@ -40,15 +42,9 @@ const CommentForm = (props: WriteCommentProps) => {
     if (!comment.length) return;
 
     const uid = signInUserState.uid;
-    const dateArray = Date().split(" ");
-    const year = dateArray[3];
-    const month = Month[dateArray[1] as keyof typeof Month];
-    const day = dateArray[2];
-    const time = dateArray[4].split(":").join("");
-    const commentId = ["c", year, month, day, time, uid].join("");
-    const date = [year, month, day, time].join("");
+    const { id, date } = setId("c", uid);
     const commentInfos = {
-      [commentId]: {
+      [id]: {
         content: comment,
         writer: uid,
         date,
@@ -57,7 +53,11 @@ const CommentForm = (props: WriteCommentProps) => {
       },
     };
 
-    setCommentDatabase(pid, commentId, commentInfos);
+    await setCommentDatabase(pid, id, commentInfos);
+
+    setComments((prev) => {
+      return { ...commentInfos, ...prev };
+    });
   };
 
   return (
@@ -75,13 +75,12 @@ const CommentForm = (props: WriteCommentProps) => {
 
 const Form = styled.form`
   width: 100%;
-  minwidth: 360px;
+  min-width: 360px;
   display: flex;
   flex-direction: column;
 `;
 
 const Textarea = styled.textarea`
-  margin-top: 8px;
   padding: 16px;
   width: 100%;
   height: 80px;

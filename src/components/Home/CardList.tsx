@@ -21,8 +21,10 @@ const CardList = () => {
 
   return (
     <Container>
-      {Object.keys(posts).map((pid) => {
-        return <Card key={pid} pid={pid} infos={posts[pid]} />;
+      {Object.keys(posts).map((pid, index) => {
+        if (index < CARD_NUMBER_IN_PAGE) {
+          return <Card key={pid} pid={pid} infos={posts[pid]} />;
+        }
       })}
     </Container>
   );

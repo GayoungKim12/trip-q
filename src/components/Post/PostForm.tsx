@@ -7,10 +7,10 @@ import PostInputs from "./PostInputs";
 import Buttons from "./Buttons";
 import { useNavigate } from "react-router-dom";
 import setPostDatabase from "../../firebase/setPostDatabase";
-import Month from "../../constants/Month";
 import signInUser from "../../store/signInUser";
 import { unavailableUser } from "../../util/unavailableUser";
 import postsState from "../../store/postsState";
+import { setId } from "../../util/setId";
 
 const PostForm = () => {
   const [postContentState, setPostContentState] = useRecoilState(postContent);
@@ -44,21 +44,13 @@ const PostForm = () => {
       }
 
       const { questions, uid } = userInfos;
+      const { id, date } = setId("q", uid);
 
-      const writerInfos = uid;
-      const dateArray = Date().split(" ");
-      const year = dateArray[3];
-      const month = Month[dateArray[1] as keyof typeof Month];
-      const day = dateArray[2];
-      const time = dateArray[4].split(":").join("");
-      const postId = ["q", year, month, day, time, userInfos.uid].join("");
-      const date = [year, month, day, time].join("");
+      const newPostContent = { ...postContentState, writer: uid, date };
 
-      const newPostContent = { ...postContentState, writer: writerInfos, date };
-
-      setPostDatabase(postId, newPostContent, uid);
-      setUserInfos({ ...userInfos, questions: [postId, ...questions] });
-      setPosts({ ...posts, [postId]: newPostContent });
+      setPostDatabase(id, newPostContent, uid);
+      setUserInfos({ ...userInfos, questions: [id, ...questions] });
+      setPosts({ ...posts, [id]: newPostContent });
 
       navigate("/");
     } catch (error) {

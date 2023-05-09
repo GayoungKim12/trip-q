@@ -20,7 +20,7 @@ const QuestionArea = (props: QuestionAreaProps) => {
   );
 };
 
-const Container = styled.section`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;

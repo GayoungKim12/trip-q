@@ -1,8 +1,8 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
-import { CommentType } from "../store/comments";
+import { CommentsType } from "../store/comments";
 
-const setCommentDatabase = async (postId: string, commentId: string, commentInfos: CommentType) => {
+const setCommentDatabase = async (postId: string, commentId: string, commentInfos: CommentsType) => {
   try {
     await db.collection("comments").doc(postId).update(commentInfos);
 

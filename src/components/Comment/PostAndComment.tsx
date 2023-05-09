@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import postsState from "../../store/postsState";
 import { PostContentType } from "../../store/postContent";
 import { getQuestionInfos } from "../../firebase/getQuestionInfos";
 import CommentList from "./CommentList";
@@ -19,29 +18,24 @@ const PostAndComment = (props: PostAndCommentProps) => {
   const pid = props.pid;
   const [postInfos, setPostInfos] = useState<PostContentType | null>(null);
   const signInUserState = useRecoilValue(signInUser);
-  const posts = useRecoilValue(postsState);
 
   useEffect(() => {
-    if (posts[pid]) {
-      setPostInfos(posts[pid]);
-    } else {
-      (async () => {
-        const infos = await getQuestionInfos(pid);
-        if (infos) {
-          const newInfos = {
-            writer: infos.writer,
-            date: infos.date,
-            destination: infos.destination,
-            question: infos.question,
-            bestComment: infos.bestComment,
-            comments: infos.comments,
-          };
+    (async () => {
+      const infos = await getQuestionInfos(pid);
+      if (infos) {
+        const newInfos = {
+          writer: infos.writer,
+          date: infos.date,
+          destination: infos.destination,
+          question: infos.question,
+          bestComment: infos.bestComment,
+          comments: infos.comments,
+        };
 
-          setPostInfos(newInfos);
-        }
-      })();
-    }
-  }, [pid, posts]);
+        setPostInfos(newInfos);
+      }
+    })();
+  }, [pid]);
 
   if (!postInfos) return null;
   const { writer, date, destination, question } = postInfos;
@@ -64,6 +58,7 @@ const PostAndComment = (props: PostAndCommentProps) => {
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  gap: 8px;
   align-items: center;
   margin: 0 auto;
   width: 100%;
