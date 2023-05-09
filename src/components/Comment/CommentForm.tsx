@@ -84,6 +84,7 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 80px;
   font-size: 14px;
+  font-family: "Noto Sans KR", sans-serif;
   border-radius: 16px 16px 0 0;
   border: 1px solid #8f8f8f;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

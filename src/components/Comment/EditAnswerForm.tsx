@@ -60,7 +60,8 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 80px;
   font-size: 14px;
-  border-radius: 16px 16px 0 0;
+  font-family: "Noto Sans KR", sans-serif;
+  border-radius: 12px 12px 0 0;
   border: 1px solid #8f8f8f;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   resize: none;
@@ -79,7 +80,7 @@ const ButtonArea = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 12px 12px;
   border: 1px solid #8f8f8f;
   border-top: none;
 `;
@@ -96,7 +97,7 @@ const Button = styled.button`
   justify-content: center;
   width: 72px;
   height: 36px;
-  border-radius: 0 0 16px 0;
+  border-radius: 0 0 12px 0;
   font-size: 14px;
   color: #ffffff;
 

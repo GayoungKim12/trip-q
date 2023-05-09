@@ -146,7 +146,7 @@ const Buttons = styled.div`
     border-radius: 8px;
     font-size: 14px;
     font-family: "Noto Sans KR", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
 
     & > svg {
       font-size: 16px;
