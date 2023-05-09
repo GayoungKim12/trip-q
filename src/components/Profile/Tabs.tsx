@@ -66,7 +66,7 @@ const Tab = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #8f8f8f;
+  border-bottom: 2px solid #b6b6b6;
   width: 100%;
 
   &.active {

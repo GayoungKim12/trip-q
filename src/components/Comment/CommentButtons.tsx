@@ -42,7 +42,7 @@ const CommentButtons = (props: CommentButtonsProps) => {
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setShow(true);
+    setShow(!show);
   };
 
   const clickDelete = async (e: React.MouseEvent) => {
@@ -135,6 +135,7 @@ const Buttons = styled.div`
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+  z-index: 20;
 
   & > button {
     display: flex;

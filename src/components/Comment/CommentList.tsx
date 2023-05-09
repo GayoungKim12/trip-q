@@ -21,10 +21,13 @@ const CommentList = (props: CommentList) => {
         setComments({ ...datas });
       }
     })();
+
+    return () => {
+      setComments({});
+    };
   }, [pid, setComments]);
 
   if (!comments) return null;
-  console.log(comments);
 
   return (
     <Container>

@@ -37,7 +37,7 @@ const Container = styled.div`
 `;
 
 const CancelButton = styled.button`
-  border: 2px solid #8f8f8f;
+  border: 1px solid #8f8f8f;
   color: #8f8f8f;
 
   &:hover {
@@ -48,7 +48,7 @@ const CancelButton = styled.button`
 
 const AddButton = styled.button`
   margin-left: 8px;
-  border: 2px solid #38c8b4;
+  border: 1px solid #38c8b4;
   background-color: #38c8b4;
   color: #ffffff;
 

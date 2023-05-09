@@ -166,7 +166,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 24px 28px;
-  width: 560px;
+  width: 90%;
+  max-width: 560px;
   height: 240px;
   transform: translate(-50%, -50%);
   border-radius: 16px;
@@ -212,13 +213,13 @@ const Buttons = styled.div`
 `;
 
 const CancelButton = styled.button`
-  border: 2px solid #8f8f8f;
+  border: 1px solid #8f8f8f;
   color: #8f8f8f;
 `;
 
 const AddButton = styled.button`
   margin-left: 8px;
-  border: 2px solid #38c8b4;
+  border: 1px solid #38c8b4;
   background-color: #38c8b4;
   color: #ffffff;
 
