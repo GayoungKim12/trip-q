@@ -8,6 +8,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import signInUser from "../../store/signInUser";
 import { unavailableUser } from "../../util/unavailableUser";
+import usersState from "../../store/usersState";
 
 interface EditUserInfosFormProps {
   userId: string;
@@ -16,6 +17,7 @@ interface EditUserInfosFormProps {
 const EditUserInfosForm = (props: EditUserInfosFormProps) => {
   const navigate = useNavigate();
   const editUserInfos = useRecoilValue(editUserInfosState);
+  const [users, setUsers] = useRecoilState(usersState);
   const [signInUserState, setSignInUserState] = useRecoilState(signInUser);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,6 +30,7 @@ const EditUserInfosForm = (props: EditUserInfosFormProps) => {
     const userInfosRef = doc(db, "users", props.userId);
     await setDoc(userInfosRef, editUserInfos);
     setSignInUserState({ ...signInUserState, ...editUserInfos });
+    setUsers({ ...users, [signInUserState.uid]: { nickname: editUserInfos.nickname, image: editUserInfos.image } });
 
     navigate(`/profile/${props.userId}`);
   };

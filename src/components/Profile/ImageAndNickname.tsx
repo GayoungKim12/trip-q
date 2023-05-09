@@ -36,10 +36,13 @@ const ImageContainer = styled.div`
   min-height: 50px;
   border-radius: 50%;
   border: 2px solid #b6b6b6;
-  transform: rotate(45deg);
   font-size: 24px;
   color: #8f8f8f;
   overflow: hidden;
+
+  & > svg {
+    transform: rotate(45deg);
+  }
 `;
 
 const Image = styled.img`
@@ -51,6 +54,7 @@ const Image = styled.img`
 const NickName = styled.span`
   font-weight: 500;
   font-size: 20px;
+  cursor: pointer;
 `;
 
 export default ImageAndNickname;

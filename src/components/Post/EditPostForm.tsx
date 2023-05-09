@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { getQuestionInfos } from "../../firebase/getQuestionInfos";
 import { db } from "../../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import postsState from "../../store/postsState";
 
 interface EditPostFormProps {
   pid: string;
@@ -20,6 +21,7 @@ const EditPostForm = (props: EditPostFormProps) => {
   const pid = props.pid;
   const navigate = useNavigate();
   const [postContentState, setPostContentState] = useRecoilState(postContent);
+  const [posts, setPosts] = useRecoilState(postsState);
   const signInUserState = useRecoilValue(signInUser);
 
   useEffect(() => {
@@ -47,14 +49,16 @@ const EditPostForm = (props: EditPostFormProps) => {
     const postContentRef = doc(db, "posts", pid);
     await setDoc(postContentRef, postContentState);
 
-    navigate(`/`);
+    setPosts({ ...posts, pid: postContentState });
+
+    navigate(`/post/${pid}`);
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <SelectDestination />
       <PostInputs type={"edit"} />
-      <Buttons />
+      <Buttons pid={pid} />
     </Form>
   );
 };

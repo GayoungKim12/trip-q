@@ -8,7 +8,7 @@ import EditUserInfosPage from "../../pages/EditUserInfosPage";
 import HomePage from "../../pages/HomePage";
 import PostPage from "../../pages/PostPage";
 import EditPostPage from "../../pages/EditPostPage";
-import PostAndCommentPage from "../../pages/PostAndComentPage";
+import PostAndCommentPage from "../../pages/PostAndCommentPage";
 
 const Main = () => {
   return (

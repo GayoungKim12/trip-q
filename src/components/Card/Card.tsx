@@ -5,6 +5,8 @@ import { PostContentType } from "../../store/postContent";
 import signInUser from "../../store/signInUser";
 import { useRecoilValue } from "recoil";
 import DeleteEditButton from "../common/DeleteEditButton";
+import { useNavigate } from "react-router-dom";
+import { unavailableUser } from "../../util/unavailableUser";
 
 interface CardProps {
   pid: string;
@@ -14,15 +16,27 @@ interface CardProps {
 const Card = (props: CardProps) => {
   const { writer, date, destination, question, bestComment } = props.infos;
   const signInUserState = useRecoilValue(signInUser);
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!signInUserState) {
+      unavailableUser(navigate);
+    } else {
+      navigate(`/post/${props.pid}`);
+    }
+  };
 
   return (
     <Container>
       <Top>
         <CardHead writer={writer} date={date} />
-        {writer.uid === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
+        {writer === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
       </Top>
       <CardBody destination={destination} question={question} answer={bestComment ? bestComment : null} />
-      <MoreComments>댓글 더보기...</MoreComments>
+      <MoreComments>
+        <Span onClick={handleClick}>댓글 더보기...</Span>
+      </MoreComments>
     </Container>
   );
 };
@@ -43,8 +57,11 @@ const Top = styled.div`
   justify-content: space-between;
 `;
 
-const MoreComments = styled.span`
+const MoreComments = styled.div`
   margin-left: 8px;
+`;
+
+const Span = styled.span`
   font-size: 14px;
   color: #8f8f8f;
   cursor: pointer;

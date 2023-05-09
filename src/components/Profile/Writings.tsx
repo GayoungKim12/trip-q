@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import Card from "../Card/Card";
 import { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
-import { PostContentType } from "../../store/postContent";
+import { PostsType } from "../../store/postsState";
+
+import { getPostsByUid } from "../../firebase/getPostsByUid";
+import { useRecoilValue } from "recoil";
+import signInUser from "../../store/signInUser";
 
 interface WritingsProps {
   userId: string;
@@ -10,28 +13,15 @@ interface WritingsProps {
 }
 
 const Writings = (props: WritingsProps) => {
-  const [datas, setDatas] = useState<[string, PostContentType][] | null>(null);
+  const [datas, setDatas] = useState<PostsType | null>(null);
+  const signInUserState = useRecoilValue(signInUser);
 
   useEffect(() => {
     (async () => {
-      const querySnapshot = await db.collection("posts").where("writer.uid", "==", props.userId).get();
-      const docIds = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return [
-          doc.id,
-          {
-            writer: data?.writer,
-            date: data?.date,
-            destination: data?.destination,
-            question: data?.question,
-            bestComment: data?.bestComment,
-            comments: data?.comments,
-          },
-        ] as [string, PostContentType];
-      });
-      setDatas(docIds.reverse());
+      const result = await getPostsByUid(props.userId);
+      setDatas(result);
     })();
-  }, [props.userId]);
+  }, [props.userId, signInUserState]);
 
   if (!datas) return null;
 
@@ -45,8 +35,8 @@ const Writings = (props: WritingsProps) => {
 
   return (
     <Container>
-      {datas.map((data) => {
-        return <Card key={data[0]} pid={data[0]} infos={data[1]} />;
+      {Object.keys(datas).map((qid) => {
+        return <Card key={qid} pid={qid} infos={datas[qid]} />;
       })}
     </Container>
   );

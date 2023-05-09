@@ -10,19 +10,17 @@ import setPostDatabase from "../../firebase/setPostDatabase";
 import Month from "../../constants/Month";
 import signInUser from "../../store/signInUser";
 import { unavailableUser } from "../../util/unavailableUser";
+import postsState from "../../store/postsState";
 
 const PostForm = () => {
   const [postContentState, setPostContentState] = useRecoilState(postContent);
   const [userInfos, setUserInfos] = useRecoilState(signInUser);
+  const [posts, setPosts] = useRecoilState(postsState);
   const navigate = useNavigate();
 
   useEffect(() => {
     setPostContentState({
-      writer: {
-        uid: "",
-        nickname: "",
-        image: "",
-      },
+      writer: "",
       date: "",
       destination: [],
       question: "",
@@ -45,14 +43,9 @@ const PostForm = () => {
         return alert("글을 작성해 주세요");
       }
 
-      const { email, nickname, image, destinations, selected, questions, saveComments, uid } = userInfos;
+      const { questions, uid } = userInfos;
 
-      const writerInfos = {
-        uid,
-        nickname,
-        image,
-      };
-
+      const writerInfos = uid;
       const dateArray = Date().split(" ");
       const year = dateArray[3];
       const month = Month[dateArray[1] as keyof typeof Month];
@@ -62,18 +55,10 @@ const PostForm = () => {
       const date = [year, month, day, time].join("");
 
       const newPostContent = { ...postContentState, writer: writerInfos, date };
-      const newUserData = {
-        email,
-        nickname,
-        image,
-        destinations,
-        selected,
-        questions: [postId, ...questions],
-        saveComments,
-      };
 
-      setPostDatabase(postId, newPostContent, uid, newUserData);
+      setPostDatabase(postId, newPostContent, uid);
       setUserInfos({ ...userInfos, questions: [postId, ...questions] });
+      setPosts({ ...posts, [postId]: newPostContent });
 
       navigate("/");
     } catch (error) {

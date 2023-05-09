@@ -1,13 +1,7 @@
 import { atom } from "recoil";
 
-export interface WriterType {
-  uid: string;
-  nickname: string;
-  image: string;
-}
-
 export interface PostContentType {
-  writer: WriterType;
+  writer: string;
   date: string;
   destination: string[];
   question: string;
@@ -18,11 +12,7 @@ export interface PostContentType {
 const postContent = atom<PostContentType>({
   key: "postContent",
   default: {
-    writer: {
-      uid: "",
-      nickname: "",
-      image: "",
-    },
+    writer: "",
     date: "",
     destination: [],
     question: "",

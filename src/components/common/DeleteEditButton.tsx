@@ -4,7 +4,7 @@ import { GoKebabHorizontal } from "react-icons/go";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { deleteDoc, doc, setDoc } from "firebase/firestore";
+import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
@@ -53,21 +53,16 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
     setShow(false);
 
     if (!signInUserState) return null;
-    const { email, nickname, image, destinations, selected, questions, saveComments, uid } = signInUserState;
+    const { questions, uid } = signInUserState;
     const newQuestionList = questions.filter((question) => question !== pid);
 
-    await deleteDoc(doc(db, "posts", pid));
     setSignInUserState({ ...signInUserState, questions: newQuestionList });
+    await deleteDoc(doc(db, "posts", pid));
+    await deleteDoc(doc(db, "comments", pid));
 
     const userInfosRef = doc(db, "users", uid);
-    await setDoc(userInfosRef, {
-      email,
-      image,
-      nickname,
-      destinations,
-      selected,
-      questions: newQuestionList,
-      saveComments,
+    await updateDoc(userInfosRef, {
+      questions: arrayRemove(pid),
     });
 
     const datas = await getPosts(CARD_NUMBER_IN_PAGE);

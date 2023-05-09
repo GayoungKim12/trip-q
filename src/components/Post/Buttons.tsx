@@ -1,11 +1,20 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const Buttons = () => {
+interface ButtonsProps {
+  pid?: string;
+}
+
+const Buttons = (props: ButtonsProps) => {
   const navigate = useNavigate();
   const handleCacelButton = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/");
+
+    if (props.pid) {
+      navigate(`/post/${props.pid}`);
+    } else {
+      navigate(`/`);
+    }
   };
 
   return (
