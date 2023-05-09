@@ -75,7 +75,6 @@ const CommentForm = (props: WriteCommentProps) => {
 
 const Form = styled.form`
   width: 100%;
-  min-width: 360px;
   display: flex;
   flex-direction: column;
 `;

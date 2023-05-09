@@ -51,7 +51,6 @@ const EditAnswerForm = (props: EditAnswerFormProps) => {
 
 const Form = styled.form`
   width: 100%;
-  min-width: 360px;
   display: flex;
   flex-direction: column;
 `;
