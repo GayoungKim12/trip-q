@@ -10,9 +10,9 @@ export const getPostsByUid = async (userId: string) => {
       doc.id,
       {
         writer: data?.writer,
-        date: data?.date,
         destination: data?.destination,
         question: data?.question,
+        timeStamp: data?.timeStamp,
       },
     ] as [string, PostContentType];
   });

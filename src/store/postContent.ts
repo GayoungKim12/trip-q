@@ -1,19 +1,20 @@
+import { Timestamp } from "firebase/firestore";
 import { atom } from "recoil";
 
 export interface PostContentType {
   writer: string;
-  date: string;
   destination: string[];
   question: string;
+  timeStamp: Timestamp | null;
 }
 
 const postContent = atom<PostContentType>({
   key: "postContent",
   default: {
     writer: "",
-    date: "",
     destination: [],
     question: "",
+    timeStamp: null,
   },
 });
 

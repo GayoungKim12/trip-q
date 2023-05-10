@@ -7,18 +7,20 @@ import { unavailableUser } from "../../util/unavailableUser";
 import usersState, { WriterType } from "../../store/usersState";
 import { useEffect, useState } from "react";
 import { getUserInfos } from "../../firebase/getUserInfos";
+import { Timestamp } from "firebase/firestore";
 
 interface CardHeadProps {
   writer: string;
-  date: string;
+  timeStamp: Timestamp | null;
 }
 
 const CardHead = (props: CardHeadProps) => {
-  const { writer, date } = props;
+  const { writer, timeStamp } = props;
   const navigate = useNavigate();
   const signInUserState = useRecoilValue(signInUser);
   const [users, setUsers] = useRecoilState(usersState);
   const [writerInfos, setWriterInfos] = useState<WriterType | null>(null);
+  const [date, setDate] = useState<Date | null>(null);
 
   useEffect(() => {
     if (users[writer]) {
@@ -41,6 +43,12 @@ const CardHead = (props: CardHeadProps) => {
     }
   }, [setUsers, users, writer, signInUserState]);
 
+  useEffect(() => {
+    if (timeStamp) {
+      setDate(new Date(timeStamp.seconds * 1000));
+    }
+  }, [timeStamp]);
+
   const clickProfile = () => {
     if (signInUserState) {
       navigate(`/profile/${writer}`);
@@ -62,7 +70,7 @@ const CardHead = (props: CardHeadProps) => {
         <Link to={`/profile/${writer}`}>
           <NickName>{writerInfos?.nickname}</NickName>
         </Link>
-        <Date>{`${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`}</Date>
+        {date && <DateString>{date.toLocaleDateString()}</DateString>}
       </Descriptions>
     </Container>
   );
@@ -110,7 +118,7 @@ const NickName = styled.span`
   color: black;
 `;
 
-const Date = styled.span`
+const DateString = styled.span`
   font-size: 12px;
   color: #8f8f8f;
 `;

@@ -21,9 +21,9 @@ const PostForm = () => {
   useEffect(() => {
     setPostContentState({
       writer: "",
-      date: "",
       destination: [],
       question: "",
+      timeStamp: null,
     });
   }, [setPostContentState]);
 
@@ -42,9 +42,9 @@ const PostForm = () => {
       }
 
       const { questions, uid } = userInfos;
-      const { id, date } = setId("q", uid);
+      const id = setId("q", uid);
 
-      const newPostContent = { ...postContentState, writer: uid, date };
+      const newPostContent = { ...postContentState, writer: uid };
 
       setPostDatabase(id, newPostContent, uid);
       setUserInfos({ ...userInfos, questions: [id, ...questions] });

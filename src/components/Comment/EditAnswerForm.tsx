@@ -3,7 +3,7 @@ import { IoSend } from "react-icons/io5";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import commentsState from "../../store/comments";
-import { doc, updateDoc } from "firebase/firestore";
+import { updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 
 interface EditAnswerFormProps {

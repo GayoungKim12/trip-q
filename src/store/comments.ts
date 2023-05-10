@@ -1,11 +1,12 @@
+import { Timestamp } from "firebase/firestore";
 import { atom } from "recoil";
 
 export interface CommentType {
   content: string;
   writer: string;
-  date: string;
   selected: number;
   pid: string;
+  timeStamp: Timestamp | null;
 }
 
 export interface CommentsType {

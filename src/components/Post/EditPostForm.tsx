@@ -30,9 +30,9 @@ const EditPostForm = (props: EditPostFormProps) => {
       const data = await getQuestionInfos(pid);
       setPostContentState({
         writer: data?.writer,
-        date: data?.date,
         destination: data?.destination,
         question: data?.question,
+        timeStamp: data?.timeStamp,
       });
     })();
   }, [pid, signInUserState, setPostContentState]);

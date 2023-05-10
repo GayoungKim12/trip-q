@@ -5,17 +5,19 @@ import { useRecoilState } from "recoil";
 import usersState, { WriterType } from "../../store/usersState";
 import { getUserInfos } from "../../firebase/getUserInfos";
 import { useNavigate } from "react-router-dom";
+import { Timestamp } from "firebase/firestore";
 
 interface ProfileAreaProps {
   writer: string;
-  date: string;
+  timeStamp: Timestamp | null;
 }
 
 const ProfileArea = (props: ProfileAreaProps) => {
-  const { writer, date } = props;
+  const { writer, timeStamp } = props;
   const navigate = useNavigate();
   const [users, setUsers] = useRecoilState(usersState);
   const [writerInfos, setWriterInfos] = useState<WriterType | null>(null);
+  const [date, setDate] = useState<Date | null>(null);
 
   useEffect(() => {
     if (users[writer]) {
@@ -38,6 +40,13 @@ const ProfileArea = (props: ProfileAreaProps) => {
     }
   }, [setUsers, users, writer]);
 
+  useEffect(() => {
+    if (timeStamp) {
+      setDate(new Date(timeStamp.seconds * 1000));
+    }
+  }, [timeStamp]);
+  console.log(date);
+
   return (
     <Container>
       <ImageContainer onClick={() => navigate(`/profile/${writer}`)}>
@@ -48,7 +57,7 @@ const ProfileArea = (props: ProfileAreaProps) => {
         )}
       </ImageContainer>
       <NickName onClick={() => navigate(`/profile/${writer}`)}>{writerInfos?.nickname}</NickName>
-      <Date>{`${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`}</Date>
+      {date && <DateString>{date.toLocaleDateString()}</DateString>}
     </Container>
   );
 };
@@ -91,7 +100,7 @@ const NickName = styled.span`
   cursor: pointer;
 `;
 
-const Date = styled.span`
+const DateString = styled.span`
   font-size: 14px;
   color: #8f8f8f;
 `;

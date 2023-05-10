@@ -25,11 +25,9 @@ const PostAndComment = (props: PostAndCommentProps) => {
       if (infos) {
         const newInfos = {
           writer: infos.writer,
-          date: infos.date,
           destination: infos.destination,
           question: infos.question,
-          bestComment: infos.bestComment,
-          comments: infos.comments,
+          timeStamp: infos.timeStamp,
         };
 
         setPostInfos(newInfos);
@@ -38,14 +36,14 @@ const PostAndComment = (props: PostAndCommentProps) => {
   }, [pid]);
 
   if (!postInfos) return null;
-  const { writer, date, destination, question } = postInfos;
+  const { writer, timeStamp, destination, question } = postInfos;
 
   return (
     <Container>
       <ProfileAndQuestion>
         <QuestionArea destination={destination} question={question} />
         <Explanation>
-          <ProfileArea writer={writer} date={date} />
+          <ProfileArea writer={writer} timeStamp={timeStamp} />
           {postInfos.writer === signInUserState?.uid && <DeleteEditButton pid={pid} />}
         </Explanation>
       </ProfileAndQuestion>

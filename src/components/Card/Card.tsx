@@ -14,7 +14,7 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const { writer, date, destination, question } = props.infos;
+  const { writer, destination, question, timeStamp } = props.infos;
   const signInUserState = useRecoilValue(signInUser);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Card = (props: CardProps) => {
   return (
     <Container>
       <Top>
-        <CardHead writer={writer} date={date} />
+        <CardHead writer={writer} timeStamp={timeStamp} />
         {writer === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
       </Top>
       <CardBody destination={destination} question={question} answer={null} />

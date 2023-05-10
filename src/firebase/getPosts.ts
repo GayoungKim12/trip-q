@@ -4,16 +4,16 @@ import { db } from "./firebase";
 
 export const getPosts = async (limit: number) => {
   try {
-    const querySnapshot = await db.collection("posts").orderBy("date").limitToLast(limit).get();
+    const querySnapshot = await db.collection("posts").orderBy("timeStamp").limitToLast(limit).get();
     const datas = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return [
         doc.id,
         {
           writer: data?.writer,
-          date: data?.date,
           destination: data?.destination,
           question: data?.question,
+          timeStamp: data?.timeStamp,
         },
       ] as [string, PostContentType];
     });

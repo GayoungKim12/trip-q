@@ -14,7 +14,7 @@ interface CommentProps {
 }
 
 const Comment = (props: CommentProps) => {
-  const { content, date, writer, pid } = props.infos;
+  const { content, writer, pid, timeStamp } = props.infos;
   const [showEditForm, setShowEditForm] = useState(false);
   const signInUserState = useRecoilValue(signInUser);
 
@@ -25,7 +25,7 @@ const Comment = (props: CommentProps) => {
         <EditAnswerForm content={content} cid={props.cid} pid={pid} closeEditForm={() => setShowEditForm(false)} />
       )}
       <Explanation>
-        <ProfileArea writer={writer} date={date} />
+        <ProfileArea writer={writer} timeStamp={timeStamp} />
         {writer === signInUserState?.uid && (
           <CommentButtons pid={pid} cid={props.cid} showEditForm={() => setShowEditForm(true)} />
         )}
