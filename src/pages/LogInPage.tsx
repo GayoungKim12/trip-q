@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import LogInMethods from "../components/LogIn/LogInMethods";
+import { useEffect } from "react";
 
 const LogInPage = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <Container>
       <Title>로그인</Title>

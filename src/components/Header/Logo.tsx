@@ -12,9 +12,10 @@ const Logo = () => {
 };
 
 const Title = styled.h1`
-  font-size: 32px;
-  color: #38c8b4;
   margin-right: 32px;
+  font-size: 36px;
+  color: #38c8b4;
+  font-family: "Readex Pro";
 `;
 
 export default Logo;

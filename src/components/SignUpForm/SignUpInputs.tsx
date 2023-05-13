@@ -16,18 +16,26 @@ const SignUpInputs = (props: SignUpInputsProps) => {
   const [isSame, setIsSame] = useState(true);
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
   const [changePassword, setChangePassword] = useState(false);
+  const [emailRule, setEmailRule] = useState(true);
 
-  const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname" | "image", content: string) => {
-    setUserInfos((prevUserInfos) => ({
-      ...prevUserInfos,
+  const changeInputValue = (type: "email" | "password" | "passwordCheck" | "nickname", content: string) => {
+    setUserInfos({
+      ...userInfos,
       [type]: content,
-    }));
+    });
   };
 
   const checkDuplication = async (e: React.MouseEvent, email: string) => {
     e.preventDefault();
 
     props.checkEmail();
+
+    if (email.includes("@")) {
+      setEmailRule(true);
+    } else {
+      return setEmailRule(false);
+    }
+
     try {
       const querySnapshot = await db.collection("users").where("email", "==", email).get();
       if (querySnapshot.size > 0) {
@@ -77,8 +85,9 @@ const SignUpInputs = (props: SignUpInputsProps) => {
           }}
           required
         />
-        {props.isDuplication === true && <Warning>이미 존재하는 이메일입니다.</Warning>}
-        {props.isDuplication === false && <Pass>사용가능한 이메일입니다.</Pass>}
+        {!emailRule && <Warning>이메일 형식에 맞게 작성해주세요.</Warning>}
+        {emailRule && props.isDuplication === true && <Warning>이미 존재하는 이메일입니다.</Warning>}
+        {emailRule && props.isDuplication === false && <Pass>사용가능한 이메일입니다.</Pass>}
         <CheckDuplication onClick={(e) => checkDuplication(e, userInfos.email)}>중복확인</CheckDuplication>
       </Place>
       <Place>
@@ -130,20 +139,6 @@ const SignUpInputs = (props: SignUpInputsProps) => {
             changeInputValue("nickname", e.target.value);
           }}
           required
-        />
-      </Place>
-      <Place>
-        <Label htmlFor={"image"}>
-          {"프로필 이미지 URL"}
-          <span></span>
-        </Label>
-        <Input
-          type={"text"}
-          id={"image"}
-          placeholder={"이미지 주소를 입력해주세요."}
-          onChange={(e) => {
-            changeInputValue("image", e.target.value);
-          }}
         />
       </Place>
     </>

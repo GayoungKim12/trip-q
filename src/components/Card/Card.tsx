@@ -7,6 +7,8 @@ import { useRecoilValue } from "recoil";
 import DeleteEditButton from "../common/DeleteEditButton";
 import { useNavigate } from "react-router-dom";
 import { unavailableUser } from "../../util/unavailableUser";
+import { useEffect, useState } from "react";
+import getBestComment from "../../firebase/getBestComment";
 
 interface CardProps {
   pid: string;
@@ -14,9 +16,23 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const { writer, destination, question, timeStamp } = props.infos;
+  const { writer, destination, question, comment, timeStamp } = props.infos;
   const signInUserState = useRecoilValue(signInUser);
   const navigate = useNavigate();
+  const [answer, setAnswer] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (comment) {
+      (async () => {
+        const result = await getBestComment(props.pid);
+        if (result) {
+          setAnswer(result);
+        }
+      })();
+    } else {
+      setAnswer(null);
+    }
+  }, [comment, props.pid]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -33,7 +49,7 @@ const Card = (props: CardProps) => {
         <CardHead writer={writer} timeStamp={timeStamp} />
         {writer === signInUserState?.uid && <DeleteEditButton pid={props.pid} />}
       </Top>
-      <CardBody destination={destination} question={question} answer={null} />
+      <CardBody destination={destination} question={question} answer={answer} />
       <MoreComments>
         <Span onClick={handleClick}>댓글 더보기...</Span>
       </MoreComments>

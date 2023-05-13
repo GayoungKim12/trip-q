@@ -8,6 +8,7 @@ import usersState, { WriterType } from "../../store/usersState";
 import { useEffect, useState } from "react";
 import { getUserInfos } from "../../firebase/getUserInfos";
 import { Timestamp } from "firebase/firestore";
+import { getImageUrl } from "../../util/getImageUrl";
 
 interface CardHeadProps {
   writer: string;
@@ -21,6 +22,7 @@ const CardHead = (props: CardHeadProps) => {
   const [users, setUsers] = useRecoilState(usersState);
   const [writerInfos, setWriterInfos] = useState<WriterType | null>(null);
   const [date, setDate] = useState<Date | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (users[writer]) {
@@ -41,13 +43,18 @@ const CardHead = (props: CardHeadProps) => {
         }
       })();
     }
-  }, [setUsers, users, writer, signInUserState]);
+  }, [setUsers, users, writer]);
 
   useEffect(() => {
-    if (timeStamp) {
+    if (timeStamp instanceof Timestamp) {
       setDate(new Date(timeStamp.seconds * 1000));
     }
   }, [timeStamp]);
+
+  useEffect(() => {
+    if (!writerInfos?.image.length) return;
+    getImageUrl(writer, writerInfos.image, setImageUrl);
+  }, [writer, writerInfos?.image]);
 
   const clickProfile = () => {
     if (signInUserState) {
@@ -60,8 +67,8 @@ const CardHead = (props: CardHeadProps) => {
   return (
     <Container>
       <ImageContainer onClick={clickProfile}>
-        {writerInfos?.image.length ? (
-          <Image src={writerInfos?.image} alt={`${writerInfos?.nickname}의 프로필 이미지`} />
+        {imageUrl.length !== 0 ? (
+          <Image src={imageUrl} alt={`${writerInfos?.nickname}의 프로필 이미지`} />
         ) : (
           <BsAirplaneFill />
         )}
@@ -70,7 +77,7 @@ const CardHead = (props: CardHeadProps) => {
         <Link to={`/profile/${writer}`}>
           <NickName>{writerInfos?.nickname}</NickName>
         </Link>
-        {date && <DateString>{date.toLocaleDateString()}</DateString>}
+        <DateString>{date && date.toLocaleDateString()}</DateString>
       </Descriptions>
     </Container>
   );

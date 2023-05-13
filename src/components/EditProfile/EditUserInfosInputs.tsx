@@ -1,8 +1,9 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import editUserInfosState from "../../store/editUserInfosState";
+import UploadImage from "./UploadImage";
 
-const SignUpInputs = () => {
+const EditUserInfosInputs = () => {
   const [editUserInfos, setEditUserInfos] = useRecoilState(editUserInfosState);
 
   const changeInputValue = (type: "nickname" | "image", content: string) => {
@@ -14,6 +15,7 @@ const SignUpInputs = () => {
 
   return (
     <>
+      <UploadImage />
       <Place>
         <Label htmlFor={"email"}>{"이메일"}</Label>
         <Input type={"email"} id={"email"} value={`${editUserInfos.email}`} disabled />
@@ -27,21 +29,6 @@ const SignUpInputs = () => {
           value={`${editUserInfos.nickname}`}
           onChange={(e) => {
             changeInputValue("nickname", e.target.value);
-          }}
-        />
-      </Place>
-      <Place>
-        <Label htmlFor={"profile-image"}>
-          {"프로필 이미지 URL"}
-          <span></span>
-        </Label>
-        <Input
-          type={"text"}
-          id={"profile-image"}
-          placeholder={"이미지 주소를 입력해주세요."}
-          value={`${editUserInfos.image}`}
-          onChange={(e) => {
-            changeInputValue("image", e.target.value);
           }}
         />
       </Place>
@@ -78,4 +65,4 @@ const Input = styled.input`
   }
 `;
 
-export default SignUpInputs;
+export default EditUserInfosInputs;

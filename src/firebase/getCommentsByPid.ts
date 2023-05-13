@@ -1,10 +1,12 @@
 import { db } from "./firebase";
 import { CommentsType } from "../store/comments";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 
-const getCommentsByPid = async (pid: string, limit = 100) => {
+const getCommentsByPid = async (pid: string, lim = 100) => {
   try {
-    const docRef = db.collection("posts").doc(pid);
-    const querySnapshot = await docRef.collection("comments").orderBy("timeStamp").limitToLast(limit).get();
+    const postRef = collection(db, "posts", pid, "comments");
+    const q = query(postRef, orderBy("selected", "desc"), orderBy("timeStamp", "desc"), limit(lim));
+    const querySnapshot = await getDocs(q);
     const result: CommentsType = {};
 
     querySnapshot.docs.map((doc) => {

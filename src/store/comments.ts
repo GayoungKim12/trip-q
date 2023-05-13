@@ -6,7 +6,7 @@ export interface CommentType {
   writer: string;
   selected: number;
   pid: string;
-  timeStamp: Timestamp | null;
+  timeStamp: Timestamp | Date;
 }
 
 export interface CommentsType {

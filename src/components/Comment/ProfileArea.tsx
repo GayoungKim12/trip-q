@@ -6,6 +6,7 @@ import usersState, { WriterType } from "../../store/usersState";
 import { getUserInfos } from "../../firebase/getUserInfos";
 import { useNavigate } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
+import { getImageUrl } from "../../util/getImageUrl";
 
 interface ProfileAreaProps {
   writer: string;
@@ -18,6 +19,7 @@ const ProfileArea = (props: ProfileAreaProps) => {
   const [users, setUsers] = useRecoilState(usersState);
   const [writerInfos, setWriterInfos] = useState<WriterType | null>(null);
   const [date, setDate] = useState<Date | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (users[writer]) {
@@ -41,23 +43,29 @@ const ProfileArea = (props: ProfileAreaProps) => {
   }, [setUsers, users, writer]);
 
   useEffect(() => {
-    if (timeStamp) {
+    if (timeStamp instanceof Timestamp) {
       setDate(new Date(timeStamp.seconds * 1000));
+    } else {
+      setDate(timeStamp);
     }
   }, [timeStamp]);
-  console.log(date);
+
+  useEffect(() => {
+    if (!writerInfos?.image.length) return;
+    getImageUrl(writer, writerInfos.image, setImageUrl);
+  }, [writer, writerInfos?.image]);
 
   return (
     <Container>
       <ImageContainer onClick={() => navigate(`/profile/${writer}`)}>
-        {writerInfos?.image.length ? (
-          <Image src={writerInfos?.image} alt={`${writerInfos?.nickname}의 프로필 이미지`} />
+        {imageUrl.length ? (
+          <Image src={imageUrl} alt={`${writerInfos?.nickname}의 프로필 이미지`} />
         ) : (
           <BsAirplaneFill />
         )}
       </ImageContainer>
       <NickName onClick={() => navigate(`/profile/${writer}`)}>{writerInfos?.nickname}</NickName>
-      {date && <DateString>{date.toLocaleDateString()}</DateString>}
+      <DateString>{date && date.toLocaleDateString()}</DateString>
     </Container>
   );
 };

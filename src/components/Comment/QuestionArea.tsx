@@ -38,7 +38,6 @@ const Main = styled.div`
 
 const Question = styled.p`
   font-size: 18px;
-  margin-top: 8px;
 `;
 
 const AlphabetQ = styled.span`

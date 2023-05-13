@@ -6,6 +6,7 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { GoKebabHorizontal } from "react-icons/go";
 import commentsState, { CommentsType } from "../../store/comments";
+import { doc, increment, updateDoc } from "firebase/firestore";
 
 interface CommentButtonsProps {
   pid: string;
@@ -51,6 +52,10 @@ const CommentButtons = (props: CommentButtonsProps) => {
     const postRef = db.collection("posts").doc(pid);
     const commentRef = postRef.collection("comments").doc(cid);
     await commentRef.delete();
+
+    await updateDoc(postRef, {
+      comment: increment(-1),
+    });
 
     setComments((prev) => {
       const newComments: CommentsType = {};

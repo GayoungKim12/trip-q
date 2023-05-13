@@ -16,6 +16,10 @@ const ProfilePage = () => {
     setMyUserId(signInUserState?.uid);
   }, [signInUserState?.uid]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   if (!userId) return <>없는 페이지입니다.</>;
 
   return (

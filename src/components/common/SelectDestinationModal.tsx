@@ -80,7 +80,7 @@ const SelectDestinationModal = (props: SelectDestinationModalProps) => {
     const destinationString =
       destination.small === "전체" ? `${destination.middle}` : `${destination.middle} ${destination.small}`;
 
-    if (destinationString.includes("선택")) return alert("여행지를 선택해주세요.");
+    if (destinationString.includes("선택")) return alert("여행지를 끝까지 선택해주세요.");
 
     if (destination.big === "국내") {
       AddDestinations("domestic", destinationString);

@@ -1,18 +1,34 @@
+import { useEffect, useState } from "react";
 import { BsAirplaneFill } from "react-icons/bs";
 import styled from "styled-components";
+import { getImageUrl } from "../../util/getImageUrl";
 
 interface ImageAndNicknameProps {
+  uid: string;
   image: string;
   nickname: string;
 }
 
 const ImageAndNickname = (props: ImageAndNicknameProps) => {
-  const { image, nickname } = props;
+  const { uid, image, nickname } = props;
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    if (image.length) {
+      getImageUrl(uid, image, setImageUrl);
+    } else {
+      setImageUrl("");
+    }
+
+    return () => {
+      setImageUrl("");
+    };
+  }, [image, uid]);
 
   return (
     <Container>
       <ImageContainer>
-        {image.length ? <Image src={image} alt={`${nickname}의 프로필 이미지`} /> : <BsAirplaneFill />}
+        {imageUrl?.length ? <Image src={imageUrl} alt={`${nickname}의 프로필 이미지`} /> : <BsAirplaneFill />}
       </ImageContainer>
       <NickName>{nickname}</NickName>
     </Container>

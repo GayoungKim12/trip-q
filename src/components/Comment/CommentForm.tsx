@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import setCommentDatabase from "../../firebase/setCommentDatabase";
 import commentsState from "../../store/comments";
 import { setId } from "../../util/setId";
+import { doc, increment, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
 
 interface WriteCommentProps {
   pid: string;
@@ -48,10 +50,15 @@ const CommentForm = (props: WriteCommentProps) => {
       writer: uid,
       selected: 0,
       pid: pid,
-      timeStamp: null,
+      timeStamp: new Date(),
     };
 
     await setCommentDatabase(pid, id, commentInfos);
+    const postRef = doc(db, "posts", pid);
+
+    await updateDoc(postRef, {
+      comment: increment(1),
+    });
 
     setComments((prev) => {
       return { [id]: commentInfos, ...prev };

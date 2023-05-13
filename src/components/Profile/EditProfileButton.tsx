@@ -11,6 +11,10 @@ const EditProfileButton = (props: EditProfileButtonProps) => {
   return <Button onClick={() => navigate(`/edit-profile/${props.userId}`)}>회원정보 수정</Button>;
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  &:hover {
+    color: #000000;
+  }
+`;
 
 export default EditProfileButton;

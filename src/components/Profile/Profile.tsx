@@ -20,6 +20,7 @@ const Profile = (props: ProfileProps) => {
     if (signInUserState?.uid === userId) {
       const { email, nickname, image, destinations, selected, questions, saveComments } = signInUserState;
       setUserInfos({
+        uid: userId,
         email,
         nickname,
         image,
@@ -35,6 +36,7 @@ const Profile = (props: ProfileProps) => {
       const infos = await getUserInfos(userId);
 
       const newInfos = {
+        uid: userId,
         email: infos?.email,
         nickname: infos?.nickname,
         image: infos?.image,
@@ -48,7 +50,9 @@ const Profile = (props: ProfileProps) => {
     })();
   }, [userId, signInUserState]);
 
-  if (!userInfos) return <>Loading...</>;
+  if (!userInfos) {
+    return <>Loading...</>;
+  }
 
   return (
     <>

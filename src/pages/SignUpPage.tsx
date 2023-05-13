@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import SignUp from "../components/SignUpForm/SignUp";
+import { useEffect } from "react";
 
 const SignUpPage = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <Container>
       <Title>회원가입</Title>

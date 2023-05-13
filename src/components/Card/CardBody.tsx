@@ -5,7 +5,7 @@ import Question from "../common/Question";
 interface CardBodyProps {
   destination: string[];
   question: string;
-  answer: string | null;
+  answer: null | string;
 }
 
 const CardBody = (props: CardBodyProps) => {

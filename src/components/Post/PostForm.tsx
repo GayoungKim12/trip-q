@@ -23,6 +23,7 @@ const PostForm = () => {
       writer: "",
       destination: [],
       question: "",
+      comment: 0,
       timeStamp: null,
     });
   }, [setPostContentState]);
@@ -44,9 +45,9 @@ const PostForm = () => {
       const { questions, uid } = userInfos;
       const id = setId("q", uid);
 
-      const newPostContent = { ...postContentState, writer: uid };
+      const newPostContent = { ...postContentState, writer: uid, timeStamp: null };
 
-      setPostDatabase(id, newPostContent, uid);
+      await setPostDatabase(id, newPostContent, uid);
       setUserInfos({ ...userInfos, questions: [id, ...questions] });
       setPosts({ ...posts, [id]: newPostContent });
 

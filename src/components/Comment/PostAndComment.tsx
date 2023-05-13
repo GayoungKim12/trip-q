@@ -26,6 +26,7 @@ const PostAndComment = (props: PostAndCommentProps) => {
         const newInfos = {
           writer: infos.writer,
           destination: infos.destination,
+          comment: infos.comment,
           question: infos.question,
           timeStamp: infos.timeStamp,
         };

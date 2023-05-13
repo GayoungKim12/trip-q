@@ -6,6 +6,7 @@ export interface DestinationsType {
 }
 
 export interface EditUserInfosType {
+  uid?: string;
   email: string;
   nickname: string;
   image: string;

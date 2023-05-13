@@ -5,6 +5,7 @@ export interface PostContentType {
   writer: string;
   destination: string[];
   question: string;
+  comment: number;
   timeStamp: Timestamp | null;
 }
 
@@ -14,6 +15,7 @@ const postContent = atom<PostContentType>({
     writer: "",
     destination: [],
     question: "",
+    comment: 0,
     timeStamp: null,
   },
 });

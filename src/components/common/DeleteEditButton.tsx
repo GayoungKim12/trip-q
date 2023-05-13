@@ -6,11 +6,9 @@ import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
-import { getPosts } from "../../firebase/getPosts";
-import postsState from "../../store/postsState";
-import { CARD_NUMBER_IN_PAGE } from "../../constants/CardNumberInPage";
+import postsState, { PostsType } from "../../store/postsState";
 import deletePostWithComments from "../../firebase/deleteDocWithCollection";
 
 interface DeleteEditButtonProps {
@@ -22,7 +20,7 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
   const navigate = useNavigate();
   const pid = props.pid;
   const [signInUserState, setSignInUserState] = useRecoilState(signInUser);
-  const setPosts = useSetRecoilState(postsState);
+  const [posts, setPosts] = useRecoilState(postsState);
 
   useEffect(() => {
     const clickButtons = (e: MouseEvent) => {
@@ -65,11 +63,12 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
       questions: arrayRemove(pid),
     });
 
-    const datas = await getPosts(CARD_NUMBER_IN_PAGE);
-    if (!datas) return;
-    setPosts(datas);
-
-    navigate("/");
+    const postIds = Object.keys(posts).filter((postId) => postId !== pid);
+    const newPosts: PostsType = {};
+    postIds.forEach((postId) => {
+      newPosts[postId] = posts[postId];
+    });
+    setPosts(newPosts);
   };
 
   const clickEdit = (e: React.MouseEvent) => {

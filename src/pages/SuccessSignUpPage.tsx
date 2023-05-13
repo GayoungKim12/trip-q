@@ -2,10 +2,15 @@ import styled from "styled-components";
 import userInfosState from "../store/userInfosState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SuccessSignUpPage = () => {
   const userInfos = useRecoilValue(userInfosState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   return (
     <Container>

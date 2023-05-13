@@ -10,12 +10,12 @@ interface UserInfosProps {
 const UserInfos = (props: UserInfosProps) => {
   const infos = props.userInfos;
 
-  if (!infos) return <>Loading...</>;
+  if (!infos.uid) return <></>;
 
   return (
     <Container>
       <Middle>
-        <ImageAndNickname image={infos.image} nickname={infos.nickname} />
+        <ImageAndNickname uid={infos.uid} image={infos.image} nickname={infos.nickname} />
         <Selected>
           <Number>{infos.selected.toLocaleString()}</Number>
           <Span>답변 채택 수</Span>

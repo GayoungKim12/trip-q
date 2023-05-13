@@ -1,14 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
 import { BsAirplaneFill } from "react-icons/bs";
+import filterState from "../../store/filterState";
+import { getImageUrl } from "../../util/getImageUrl";
 
 const Tools = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const signInUserState = useRecoilValue(signInUser);
+  const setFilter = useSetRecoilState(filterState);
+  const [value, setValue] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (signInUserState?.uid) {
@@ -18,14 +23,39 @@ const Tools = () => {
     }
   }, [signInUserState]);
 
+  useEffect(() => {
+    if (!signInUserState?.image.length) {
+      return setImageUrl("");
+    }
+    getImageUrl(signInUserState.uid, signInUserState.image, setImageUrl);
+  }, [signInUserState]);
+
+  const handleEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      setFilter({ content: value });
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
   return (
     <Container>
-      <Search type="text" placeholder="여행지를 입력해주세요." />
+      <Search
+        type="text"
+        placeholder="여행지를 입력해주세요."
+        value={value}
+        onKeyDown={handleEnter}
+        onChange={handleChange}
+      />
       {signInUserState ? (
         <Link to={`/profile/${userId}`}>
           <ImageContainer>
-            {signInUserState.image.length ? (
-              <Image src={signInUserState.image} alt={`${signInUserState.nickname}의 프로필 이미지`} />
+            {imageUrl.length ? (
+              <Image src={imageUrl} alt={`${signInUserState.nickname}의 프로필 이미지`} />
             ) : (
               <BsAirplaneFill />
             )}

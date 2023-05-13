@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import EditProfile from "../components/EditProfile/EditProfile";
+import { useEffect } from "react";
 
 const EditUserInfosPage = () => {
   const { userId } = useParams();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   if (!userId) return <>없는 페이지입니다.</>;
 

@@ -18,6 +18,10 @@ const LogOutButton = () => {
   return <Button onClick={logOutClick}>로그아웃</Button>;
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  &:hover {
+    color: #000000;
+  }
+`;
 
 export default LogOutButton;
