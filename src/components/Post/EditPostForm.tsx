@@ -32,6 +32,7 @@ const EditPostForm = (props: EditPostFormProps) => {
         writer: data?.writer,
         destination: data?.destination,
         question: data?.question,
+        comment: data?.question,
         timeStamp: data?.timeStamp,
       });
     })();

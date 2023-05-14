@@ -6,7 +6,8 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { GoKebabHorizontal } from "react-icons/go";
 import commentsState, { CommentsType } from "../../store/comments";
-import { doc, increment, updateDoc } from "firebase/firestore";
+import { increment, updateDoc } from "firebase/firestore";
+import deleteAllSavedComment from "../../firebase/deleteAllSavedComment";
 
 interface CommentButtonsProps {
   pid: string;
@@ -67,6 +68,8 @@ const CommentButtons = (props: CommentButtonsProps) => {
 
       return newComments;
     });
+
+    await deleteAllSavedComment(cid);
   };
 
   const clickEdit = (e: React.MouseEvent) => {

@@ -13,9 +13,6 @@ export interface EditUserInfosType {
   destinations: DestinationsType;
   selected: number;
   questions: string[];
-  saveComments: {
-    [key: string]: string[];
-  };
 }
 
 const editUserInfosState = atom<EditUserInfosType>({
@@ -30,7 +27,6 @@ const editUserInfosState = atom<EditUserInfosType>({
     },
     selected: 0,
     questions: [],
-    saveComments: {},
   },
 });
 

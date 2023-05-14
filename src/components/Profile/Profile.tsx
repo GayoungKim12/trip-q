@@ -18,7 +18,7 @@ const Profile = (props: ProfileProps) => {
   useEffect(() => {
     if (!userId) return;
     if (signInUserState?.uid === userId) {
-      const { email, nickname, image, destinations, selected, questions, saveComments } = signInUserState;
+      const { email, nickname, image, destinations, selected, questions } = signInUserState;
       setUserInfos({
         uid: userId,
         email,
@@ -27,7 +27,6 @@ const Profile = (props: ProfileProps) => {
         destinations,
         selected,
         questions,
-        saveComments,
       });
       return;
     }
@@ -43,7 +42,6 @@ const Profile = (props: ProfileProps) => {
         destinations: infos?.destinations,
         selected: infos?.selected,
         questions: infos?.questions,
-        saveComments: infos?.saveComments,
       };
 
       setUserInfos(newInfos);

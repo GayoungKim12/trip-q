@@ -18,7 +18,7 @@ const EditProfile = (props: EditProfileProps) => {
     if (!userId) return;
     if (!signInUserState) return;
 
-    const { email, nickname, image, destinations, selected, questions, saveComments } = signInUserState;
+    const { email, nickname, image, destinations, selected, questions } = signInUserState;
     setEditUserInfos({
       email,
       nickname,
@@ -26,7 +26,6 @@ const EditProfile = (props: EditProfileProps) => {
       destinations,
       selected,
       questions,
-      saveComments,
     });
   }, [setEditUserInfos, userId, signInUserState]);
 

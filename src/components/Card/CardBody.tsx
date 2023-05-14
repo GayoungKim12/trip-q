@@ -1,5 +1,5 @@
 import Answer from "../common/Answer";
-import Destination from "./Destination";
+import Destination from "../common/Destination";
 import Question from "../common/Question";
 
 interface CardBodyProps {

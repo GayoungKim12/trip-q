@@ -45,7 +45,7 @@ const PostAndComment = (props: PostAndCommentProps) => {
         <QuestionArea destination={destination} question={question} />
         <Explanation>
           <ProfileArea writer={writer} timeStamp={timeStamp} />
-          {postInfos.writer === signInUserState?.uid && <DeleteEditButton pid={pid} />}
+          {postInfos.writer === signInUserState?.uid && <DeleteEditButton pid={pid} prev={"post"} />}
         </Explanation>
       </ProfileAndQuestion>
       <CommentForm pid={pid} />

@@ -34,7 +34,6 @@ const Main = styled.div`
 
 const Answer = styled.p`
   font-size: 16px;
-  margin-top: 8px;
 `;
 
 const AlphabetA = styled.span`

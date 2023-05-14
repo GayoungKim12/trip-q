@@ -1,14 +1,34 @@
 import styled from "styled-components";
 import CommentCard from "./CommentCard";
+import signInUser from "../../store/signInUser";
+import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import getSavedComments from "../../firebase/getSavedComments";
 
-interface CommentsProps {
+/* interface CommentsProps {
   comments: {
     [key: string]: string[];
   };
-}
+} */
 
-const Comments = (props: CommentsProps) => {
-  if (Object.keys(props.comments).length === 0) {
+const Comments = () => {
+  const signInUserState = useRecoilValue(signInUser);
+  const [comments, setComments] = useState<{
+    [key: string]: string[];
+  } | null>(null);
+
+  useEffect(() => {
+    if (!signInUserState) return;
+    (async () => {
+      const result = await getSavedComments(signInUserState.uid, null);
+      if (result) {
+        setComments(result);
+      }
+    })();
+  }, [signInUserState]);
+
+  if (comments === null) return <>Loading...</>;
+  if (Object.keys(comments).length === 0) {
     return (
       <Container>
         <Empty>보관한 답변이 없습니다.</Empty>
@@ -18,8 +38,8 @@ const Comments = (props: CommentsProps) => {
 
   return (
     <Container>
-      {Object.keys(props.comments).map((question) => {
-        return <CommentCard questionId={question} commentIds={props.comments[question]} key={question} />;
+      {Object.keys(comments).map((postId) => {
+        return <CommentCard pid={postId} cids={comments[postId]} key={postId} />;
       })}
     </Container>
   );

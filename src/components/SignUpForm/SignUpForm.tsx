@@ -28,7 +28,6 @@ const SignUpForm = () => {
       },
       selected: 0,
       questions: [],
-      saveComments: {},
     });
   }, [setUserInfos]);
 
@@ -60,7 +59,6 @@ const SignUpForm = () => {
         destinations: userInfos.destinations,
         selected: userInfos.selected,
         questions: userInfos.questions,
-        saveComments: userInfos.saveComments,
       };
 
       setUserDatabase(user.uid, userData);

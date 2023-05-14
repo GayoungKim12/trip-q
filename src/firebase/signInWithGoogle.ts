@@ -21,7 +21,6 @@ export const signInWithGoogle = async (callback: (str: string) => void) => {
           },
           selected: 0,
           questions: [],
-          saveComments: {},
         };
 
         setUserDatabase(result.user.uid, userData);

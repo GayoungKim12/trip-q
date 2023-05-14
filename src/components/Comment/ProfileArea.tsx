@@ -10,7 +10,7 @@ import { getImageUrl } from "../../util/getImageUrl";
 
 interface ProfileAreaProps {
   writer: string;
-  timeStamp: Timestamp | null;
+  timeStamp: Timestamp | Date | null;
 }
 
 const ProfileArea = (props: ProfileAreaProps) => {

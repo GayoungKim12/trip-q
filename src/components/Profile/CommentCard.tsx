@@ -1,22 +1,40 @@
 import styled from "styled-components";
 import Question from "../common/Question";
-import datas from "../../store/datas";
 import Answer from "../common/Answer";
+import { useEffect, useState } from "react";
+import Destination from "../common/Destination";
+import getSavedCommentsContents from "../../firebase/getSavedCommentsContents";
 
 interface CommentCardProps {
-  questionId: string;
-  commentIds: string[];
+  pid: string;
+  cids: string[];
 }
 
 const CommentCard = (props: CommentCardProps) => {
-  const question = datas[props.questionId].question;
+  const { pid, cids } = props;
+  const [question, setQuestion] = useState("");
+  const [destination, setDestination] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    (async () => {
+      const result = await getSavedCommentsContents(pid, cids);
+      if (result) {
+        setQuestion(result.question);
+        setDestination(result.destination);
+        setAnswers(result.answers);
+      }
+    })();
+  }, [pid, cids]);
 
   return (
     <Container>
+      <Destination contents={destination} />
       <Question content={question} />
-      {props.commentIds.map((commentId) => {
-        return <Answer content={commentId} key={commentId} />;
-      })}
+      {answers &&
+        Object.keys(answers).map((answer) => {
+          return <Answer content={answers[answer]} key={answer} cid={answer} pid={pid} />;
+        })}
     </Container>
   );
 };

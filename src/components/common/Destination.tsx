@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Tag from "../common/Tag";
+import Tag from "./Tag";
 
 interface DestinationProps {
   contents: string[];

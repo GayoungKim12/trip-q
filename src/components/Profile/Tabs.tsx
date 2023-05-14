@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Writings from "./Writings";
-import Comments from "./Comments";
 import { EditUserInfosType } from "../../store/editUserInfosState";
 import { useRecoilValue } from "recoil";
 import signInUser from "../../store/signInUser";
+import Comments from "./Comments";
 
 interface TabsProps {
   userId: string;
@@ -13,7 +13,7 @@ interface TabsProps {
 
 const Tabs = (props: TabsProps) => {
   const [active, setActive] = useState("writing");
-  const { questions, saveComments } = props.userInfos;
+  const { questions } = props.userInfos;
   const signInUserState = useRecoilValue(signInUser);
 
   return (
@@ -38,11 +38,7 @@ const Tabs = (props: TabsProps) => {
           </Tab>
         )}
       </TabContainer>
-      {active === "writing" ? (
-        <Writings questions={questions} userId={props.userId} />
-      ) : (
-        <Comments comments={saveComments} />
-      )}
+      {active === "writing" ? <Writings questions={questions} userId={props.userId} /> : <Comments />}
     </Container>
   );
 };

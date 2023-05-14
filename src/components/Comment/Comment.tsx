@@ -7,6 +7,7 @@ import signInUser from "../../store/signInUser";
 import CommentButtons from "./CommentButtons";
 import EditAnswerForm from "./EditAnswerForm";
 import { useState } from "react";
+import SaveButton from "../common/SaveButton";
 
 interface CommentProps {
   cid: string;
@@ -14,13 +15,19 @@ interface CommentProps {
 }
 
 const Comment = (props: CommentProps) => {
-  const { content, writer, pid, timeStamp } = props.infos;
+  const { cid, infos } = props;
+  const { content, writer, pid, timeStamp } = infos;
   const [showEditForm, setShowEditForm] = useState(false);
   const signInUserState = useRecoilValue(signInUser);
 
   return (
     <Container>
-      {!showEditForm && <AnswerArea answer={content} />}
+      {!showEditForm && (
+        <AnswerContainer>
+          <AnswerArea answer={content} />
+          <SaveButton pid={pid} cid={cid} />
+        </AnswerContainer>
+      )}
       {showEditForm && (
         <EditAnswerForm content={content} cid={props.cid} pid={pid} closeEditForm={() => setShowEditForm(false)} />
       )}
@@ -43,6 +50,13 @@ const Container = styled.section`
   border: 1px solid #8f8f8f;
   border-radius: 16px;
   background-color: #ffffff;
+`;
+
+const AnswerContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 `;
 
 const Explanation = styled.div`

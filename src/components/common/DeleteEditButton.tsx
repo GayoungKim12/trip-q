@@ -10,9 +10,11 @@ import { useRecoilState } from "recoil";
 import signInUser from "../../store/signInUser";
 import postsState, { PostsType } from "../../store/postsState";
 import deletePostWithComments from "../../firebase/deleteDocWithCollection";
+import deleteAllSavedPost from "../../firebase/deleteAllSavedPost";
 
 interface DeleteEditButtonProps {
   pid: string;
+  prev?: "post";
 }
 
 const DeleteEditButton = (props: DeleteEditButtonProps) => {
@@ -69,6 +71,12 @@ const DeleteEditButton = (props: DeleteEditButtonProps) => {
       newPosts[postId] = posts[postId];
     });
     setPosts(newPosts);
+
+    if (props.prev === "post") {
+      navigate("/");
+    }
+
+    await deleteAllSavedPost(pid);
   };
 
   const clickEdit = (e: React.MouseEvent) => {

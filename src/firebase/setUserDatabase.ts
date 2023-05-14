@@ -10,9 +10,6 @@ export interface UserDataType {
   };
   selected: number;
   questions: string[];
-  saveComments: {
-    [key: string]: string[];
-  };
 }
 
 const setUserDatabase = async (userId: string, userInfos: UserDataType) => {

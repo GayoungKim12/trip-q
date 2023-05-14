@@ -14,9 +14,6 @@ export interface UserInfosType {
   destinations: DestinationsType;
   selected: number;
   questions: string[];
-  saveComments: {
-    [key: string]: string[];
-  };
 }
 
 const userInfosState = atom<UserInfosType>({
@@ -33,7 +30,6 @@ const userInfosState = atom<UserInfosType>({
     },
     selected: 0,
     questions: [],
-    saveComments: {},
   },
 });
 

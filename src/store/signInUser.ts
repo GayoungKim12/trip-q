@@ -13,9 +13,6 @@ export interface SignInUserType {
   destinations: DestinationsType;
   selected: number;
   questions: string[];
-  saveComments: {
-    [key: string]: string[];
-  };
 }
 
 const signInUser = atom<SignInUserType | null>({
