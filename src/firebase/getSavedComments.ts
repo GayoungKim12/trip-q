@@ -30,6 +30,7 @@ const getSavedComments = async (userId: string, start: null | QueryDocumentSnaps
     }
 
     const querySnapshot = await getDocs(q);
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
     const result: { [key: string]: string[] } = {};
 
     querySnapshot.docs.map((doc) => {
@@ -37,7 +38,7 @@ const getSavedComments = async (userId: string, start: null | QueryDocumentSnaps
       result[doc.id] = data?.comments;
     });
 
-    return result;
+    return { result, lastDoc };
   } catch (error) {
     console.error(error);
   }

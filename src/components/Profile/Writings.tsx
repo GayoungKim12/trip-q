@@ -87,7 +87,6 @@ const Writings = (props: WritingsProps) => {
       }
     }
 
-    // 메모리 해제 작업
     return () => {
       setLoading(false);
       if (observer) {

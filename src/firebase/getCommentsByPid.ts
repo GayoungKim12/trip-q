@@ -1,12 +1,39 @@
 import { db } from "./firebase";
 import { CommentsType } from "../store/comments";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+} from "firebase/firestore";
+import { INITIAL_FETCH_COUNT } from "../constants/InitialFetchCount";
 
-const getCommentsByPid = async (pid: string, lim = 100) => {
+const getCommentsByPid = async (pid: string, start: null | QueryDocumentSnapshot<DocumentData>) => {
   try {
-    const postRef = collection(db, "posts", pid, "comments");
-    const q = query(postRef, orderBy("selected", "desc"), orderBy("timeStamp", "desc"), limit(lim));
+    let q;
+    if (start === null) {
+      q = query(
+        collection(db, "posts", pid, "comments"),
+        orderBy("selected", "desc"),
+        orderBy("timeStamp", "desc"),
+        limit(INITIAL_FETCH_COUNT)
+      );
+    } else {
+      q = query(
+        collection(db, "posts", pid, "comments"),
+        orderBy("selected", "desc"),
+        orderBy("timeStamp", "desc"),
+        startAfter(start),
+        limit(INITIAL_FETCH_COUNT)
+      );
+    }
+
     const querySnapshot = await getDocs(q);
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
     const result: CommentsType = {};
 
     querySnapshot.docs.map((doc) => {
@@ -20,7 +47,7 @@ const getCommentsByPid = async (pid: string, lim = 100) => {
       };
     });
 
-    return result;
+    return { result, lastDoc };
   } catch (err) {
     console.error(err);
   }

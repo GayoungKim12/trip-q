@@ -24,7 +24,7 @@ const getSavedCommentsContents = async (postId: string, commentIds: string[]) =>
     }
 
     await Promise.all(
-      commentIds.map(async (commentId: string) => {
+      commentIds.reverse().map(async (commentId: string) => {
         const commentDoc = await db.collection("posts").doc(postId).collection("comments").doc(commentId).get();
         const commentData = commentDoc.data();
         if (commentData) {
