@@ -20,7 +20,6 @@ function App() {
           destinations: infos?.destinations,
           selected: infos?.selected,
           questions: infos?.questions,
-          saveComments: infos?.saveComments,
         });
       }
     });
