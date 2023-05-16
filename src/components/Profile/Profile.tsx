@@ -5,6 +5,7 @@ import { getUserInfos } from "../../firebase/getUserInfos";
 import { EditUserInfosType } from "../../store/editUserInfosState";
 import { useRecoilValue } from "recoil";
 import signInUser from "../../store/signInUser";
+import styled from "styled-components";
 
 interface ProfileProps {
   userId: string;
@@ -18,14 +19,13 @@ const Profile = (props: ProfileProps) => {
   useEffect(() => {
     if (!userId) return;
     if (signInUserState?.uid === userId) {
-      const { email, nickname, image, destinations, selected, questions } = signInUserState;
+      const { email, nickname, image, destinations, questions } = signInUserState;
       setUserInfos({
         uid: userId,
         email,
         nickname,
         image,
         destinations,
-        selected,
         questions,
       });
       return;
@@ -40,7 +40,6 @@ const Profile = (props: ProfileProps) => {
         nickname: infos?.nickname,
         image: infos?.image,
         destinations: infos?.destinations,
-        selected: infos?.selected,
         questions: infos?.questions,
       };
 
@@ -49,7 +48,11 @@ const Profile = (props: ProfileProps) => {
   }, [userId, signInUserState]);
 
   if (!userInfos) {
-    return <>Loading...</>;
+    return (
+      <>
+        <Image src="/loader.gif" />
+      </>
+    );
   }
 
   return (
@@ -59,5 +62,10 @@ const Profile = (props: ProfileProps) => {
     </>
   );
 };
+
+const Image = styled.img`
+  width: 120px;
+  object-fit: cover;
+`;
 
 export default Profile;

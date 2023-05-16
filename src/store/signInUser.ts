@@ -11,7 +11,6 @@ export interface SignInUserType {
   nickname: string;
   image: string;
   destinations: DestinationsType;
-  selected: number;
   questions: string[];
 }
 

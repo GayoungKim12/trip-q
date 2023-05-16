@@ -24,7 +24,7 @@ const Tools = () => {
   }, [signInUserState]);
 
   useEffect(() => {
-    if (!signInUserState?.image.length) {
+    if (!signInUserState?.image?.length) {
       return setImageUrl("");
     }
     getImageUrl(signInUserState.uid, signInUserState.image, setImageUrl);

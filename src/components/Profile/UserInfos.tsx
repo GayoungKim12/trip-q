@@ -17,8 +17,8 @@ const UserInfos = (props: UserInfosProps) => {
       <Middle>
         <ImageAndNickname uid={infos.uid} image={infos.image} nickname={infos.nickname} />
         <Selected>
-          <Number>{infos.selected.toLocaleString()}</Number>
-          <Span>답변 채택 수</Span>
+          <Number>{infos.questions.length.toLocaleString()}</Number>
+          <Span>게시글 수</Span>
         </Selected>
       </Middle>
       <Travels destinations={infos.destinations} />

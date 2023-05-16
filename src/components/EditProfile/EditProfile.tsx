@@ -18,13 +18,12 @@ const EditProfile = (props: EditProfileProps) => {
     if (!userId) return;
     if (!signInUserState) return;
 
-    const { email, nickname, image, destinations, selected, questions } = signInUserState;
+    const { email, nickname, image, destinations, questions } = signInUserState;
     setEditUserInfos({
       email,
       nickname,
       image,
       destinations,
-      selected,
       questions,
     });
   }, [setEditUserInfos, userId, signInUserState]);

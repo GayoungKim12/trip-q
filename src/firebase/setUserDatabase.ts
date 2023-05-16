@@ -8,7 +8,6 @@ export interface UserDataType {
     domestic: string[];
     abroad: string[];
   };
-  selected: number;
   questions: string[];
 }
 

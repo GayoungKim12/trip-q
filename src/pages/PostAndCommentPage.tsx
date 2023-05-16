@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import PostAndComment from "../components/Comment/PostAndComment";
+import PostAndComment from "../components/PostAndComment/PostAndComment";
 import { useEffect } from "react";
 
 const PostAndCommentPage = () => {

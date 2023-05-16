@@ -4,13 +4,15 @@ import { auth } from "../../firebase/firebase";
 import SignUpInputs from "./SignUpInputs";
 import setUserDatabase from "../../firebase/setUserDatabase";
 import TravelPlaces from "./TravelPlaces";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import userInfosState from "../../store/userInfosState";
 import { useNavigate } from "react-router-dom";
+import signInUser from "../../store/signInUser";
 
 const SignUpForm = () => {
   const [userInfos, setUserInfos] = useRecoilState(userInfosState);
   const navigate = useNavigate();
+  const setSignInUserState = useSetRecoilState(signInUser);
   const [checkEmail, setCheckEmail] = useState(false);
   const [isDuplication, setIsDuplication] = useState<boolean | null>(null);
   const [checkPassword, setCheckPassword] = useState(false);
@@ -26,7 +28,6 @@ const SignUpForm = () => {
         domestic: [],
         abroad: [],
       },
-      selected: 0,
       questions: [],
     });
   }, [setUserInfos]);
@@ -57,11 +58,11 @@ const SignUpForm = () => {
         nickname: userInfos.nickname,
         image: userInfos.image,
         destinations: userInfos.destinations,
-        selected: userInfos.selected,
         questions: userInfos.questions,
       };
 
-      setUserDatabase(user.uid, userData);
+      setSignInUserState({ uid: user.uid, ...userData });
+      await setUserDatabase(user.uid, userData);
       navigate("success");
     } catch (error) {
       console.error(error);

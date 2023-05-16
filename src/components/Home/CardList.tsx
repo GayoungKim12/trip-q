@@ -16,6 +16,7 @@ const CardList = () => {
   const [loading, setLoading] = useState(false);
   const [key, setKey] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [noMore, setNoMore] = useState(false);
+  const [nothing, setNothing] = useState(false);
 
   const getFirstPage = useCallback(async () => {
     try {
@@ -24,6 +25,9 @@ const CardList = () => {
       if (filter.content === "") {
         const allPosts = await getAllPosts(null);
         if (allPosts) {
+          if (Object.keys(allPosts.result).length === 0) {
+            setNothing(true);
+          }
           if (Object.keys(allPosts.result).length !== INITIAL_FETCH_COUNT) {
             setNoMore(true);
           }
@@ -33,6 +37,9 @@ const CardList = () => {
       } else {
         const filterPosts = await getPostsByFilter(filter.content, null);
         if (filterPosts) {
+          if (Object.keys(filterPosts.result).length === 0) {
+            setNothing(true);
+          }
           if (Object.keys(filterPosts.result).length !== INITIAL_FETCH_COUNT) {
             setNoMore(true);
           }
@@ -88,6 +95,7 @@ const CardList = () => {
 
   useEffect(() => {
     setPosts({});
+    setNothing(false);
     (async () => {
       await getFirstPage();
       window.scrollTo({ top: 0, behavior: "auto" });
@@ -117,6 +125,14 @@ const CardList = () => {
     };
   }, [onIntersect, noMore, loading]);
 
+  if (nothing) {
+    return (
+      <Container>
+        <Empty>검색어가 포함된 게시물이 없습니다.</Empty>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       {Object.keys(posts).map((pid) => {
@@ -124,7 +140,7 @@ const CardList = () => {
       })}
       {!noMore && (
         <div className={"observer"} ref={observerRef}>
-          Loading
+          <Image src="/loader.gif" />
         </div>
       )}
     </Container>
@@ -138,6 +154,16 @@ const Container = styled.section`
   margin: 0 auto;
   width: 100%;
   max-width: 640px;
+`;
+
+const Empty = styled.p`
+  padding: 12px;
+  text-align: center;
+`;
+
+const Image = styled.img`
+  width: 120px;
+  object-fit: cover;
 `;
 
 export default CardList;

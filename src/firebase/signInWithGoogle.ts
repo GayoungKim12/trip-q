@@ -19,7 +19,6 @@ export const signInWithGoogle = async (callback: (str: string) => void) => {
             domestic: [],
             abroad: [],
           },
-          selected: 0,
           questions: [],
         };
 

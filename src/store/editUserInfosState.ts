@@ -11,7 +11,6 @@ export interface EditUserInfosType {
   nickname: string;
   image: string;
   destinations: DestinationsType;
-  selected: number;
   questions: string[];
 }
 
@@ -25,7 +24,6 @@ const editUserInfosState = atom<EditUserInfosType>({
       domestic: [],
       abroad: [],
     },
-    selected: 0,
     questions: [],
   },
 });

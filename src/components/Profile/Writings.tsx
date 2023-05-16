@@ -112,7 +112,7 @@ const Writings = (props: WritingsProps) => {
       })}
       {!noMore && (
         <div className={"observer"} ref={observerRef}>
-          Loading
+          <Image src="/loader.gif" />
         </div>
       )}
     </Container>
@@ -131,6 +131,11 @@ const Container = styled.div`
 const Empty = styled.p`
   padding: 12px;
   text-align: center;
+`;
+
+const Image = styled.img`
+  width: 120px;
+  object-fit: cover;
 `;
 
 export default Writings;

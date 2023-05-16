@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { CommentType } from "../../store/comments";
 import AnswerArea from "./AnswerArea";
 import ProfileArea from "./ProfileArea";
 import { useRecoilValue } from "recoil";
@@ -8,6 +7,7 @@ import CommentButtons from "./CommentButtons";
 import EditAnswerForm from "./EditAnswerForm";
 import { useState } from "react";
 import SaveButton from "../common/SaveButton";
+import { CommentType } from "../../store/comments";
 
 interface CommentProps {
   cid: string;

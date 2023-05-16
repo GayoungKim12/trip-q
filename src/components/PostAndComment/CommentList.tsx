@@ -110,7 +110,7 @@ const CommentList = (props: CommentList) => {
       })}
       {!noMore && (
         <div className={"observer"} ref={observerRef}>
-          Loading
+          <Image src="/loader.gif" />
         </div>
       )}
     </Container>
@@ -139,6 +139,11 @@ const Empty = styled.p`
   padding: 12px;
   text-align: center;
   color: #8f8f8f;
+`;
+
+const Image = styled.img`
+  width: 120px;
+  object-fit: cover;
 `;
 
 export default CommentList;

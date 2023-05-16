@@ -12,7 +12,6 @@ export interface UserInfosType {
   nickname: string;
   image: string;
   destinations: DestinationsType;
-  selected: number;
   questions: string[];
 }
 
@@ -28,7 +27,6 @@ const userInfosState = atom<UserInfosType>({
       domestic: [],
       abroad: [],
     },
-    selected: 0,
     questions: [],
   },
 });

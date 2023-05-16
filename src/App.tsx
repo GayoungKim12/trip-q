@@ -18,7 +18,6 @@ function App() {
           nickname: infos?.nickname,
           image: infos?.image,
           destinations: infos?.destinations,
-          selected: infos?.selected,
           questions: infos?.questions,
         });
       }
