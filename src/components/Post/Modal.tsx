@@ -35,7 +35,7 @@ const Modal = (props: ModalProps) => {
   const bigStandard = ["국내", "해외"];
   let middleStandard, smallStandard;
   if (destination.big !== "선택") {
-    if (!destinations) return;
+    if (!destinations) return <></>;
     middleStandard = Object.keys(destinations[destination.big]);
     if (destination.middle !== "선택") {
       smallStandard = destinations[destination.big][destination.middle];
