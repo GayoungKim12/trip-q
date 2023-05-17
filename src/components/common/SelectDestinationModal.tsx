@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { destinations } from "../../constants/Destinations";
-import { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import userInfosState from "../../store/userInfosState";
 import editUserInfosState from "../../store/editUserInfosState";
+import destinationsState from "../../store/destinationsState";
+import getDestinationList from "../../firebase/getDestinationList";
 
 interface SelectDestinationModalProps {
   type: "new" | "edit";
@@ -18,7 +19,7 @@ interface DestinationType {
 }
 
 const SelectDestinationModal = (props: SelectDestinationModalProps) => {
-  const bigStandard = Object.keys(destinations);
+  const [destinations, setDestinations] = useRecoilState(destinationsState);
   const setUserInfos = useSetRecoilState(userInfosState);
   const setEditUserInfos = useSetRecoilState(editUserInfosState);
   const [destination, setDestination] = useState<DestinationType>({
@@ -27,8 +28,18 @@ const SelectDestinationModal = (props: SelectDestinationModalProps) => {
     small: "선택",
   });
 
+  useEffect(() => {
+    if (destinations) return;
+    (async () => {
+      const datas = await getDestinationList();
+      setDestinations(datas);
+    })();
+  }, [setDestinations, destinations]);
+
+  const bigStandard = ["국내", "해외"];
   let middleStandard, smallStandard;
   if (destination.big !== "선택") {
+    if (!destinations) return;
     middleStandard = Object.keys(destinations[destination.big]);
     if (destination.middle !== "선택") {
       smallStandard = destinations[destination.big][destination.middle];
